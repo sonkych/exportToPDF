@@ -54,16 +54,26 @@ After compiling the jar, you can create and run a Docker container with the appl
 
 ## Available Endpoints
 
-The application exposes two endpoints for file conversion:
+The application exposes 4 endpoints for file conversion:
 
 - **Excel to PDF Conversion:** `POST /api/converter/excel2pdf`
 
     Attach the Excel file you wish to convert in the request body.
 
+
 - **HTML to PDF Conversion:** `POST /api/converter/html2pdf`
 
     Attach the HTML file you wish to convert in the request body.
 
+
+- **JSON to Excel Conversion:** `POST /api/converter/json2excel`
+
+    Attach the JSON file you wish to convert in the request body.
+
+
+- **JSON to CSV Conversion:** `POST /api/converter/json2csv`
+
+   Attach the JSON file you wish to convert in the request body.
 ## Usage Example
 
 To use the conversion service, send a POST request to the relevant endpoint with the file attached. Here's an example using `curl`:
