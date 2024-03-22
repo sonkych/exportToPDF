@@ -2,6 +2,7 @@ package ee.hcapp.javaservice.web.rest;
 
 
 import ee.hcapp.javaservice.converter.HtmlPdfConverter;
+import ee.hcapp.javaservice.converter.JsonExcelConverter;
 import ee.hcapp.javaservice.converter.LibreOfficeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +18,12 @@ public class ConverterResource {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConverterResource.class);
     private final LibreOfficeService libreOfficeService;
     private final HtmlPdfConverter htmlPdfConverter;
+    private final JsonExcelConverter jsonExcelConverter;
 
-    public ConverterResource(LibreOfficeService libreOfficeService, HtmlPdfConverter htmlPdfConverter) {
+    public ConverterResource(LibreOfficeService libreOfficeService, HtmlPdfConverter htmlPdfConverter, JsonExcelConverter jsonExcelConverter) {
         this.libreOfficeService = libreOfficeService;
         this.htmlPdfConverter = htmlPdfConverter;
+        this.jsonExcelConverter = jsonExcelConverter;
     }
 
     @PostMapping("/excel2pdf")
@@ -73,8 +76,28 @@ public class ConverterResource {
         }
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Test";
+    @PostMapping("/json2excel")
+    public ResponseEntity<?> convertJsonToExcel(@RequestParam("file") MultipartFile file) {
+        LOGGER.info("Received request to convert JSON to Excel.");
+
+        if (file.isEmpty()) {
+            LOGGER.error("Failed to convert JSON to Excel: file is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty.");
+        }
+
+        try {
+            byte[] excelBytes = jsonExcelConverter.convert(file);
+            if (excelBytes == null) {
+                LOGGER.error("Conversion failed with null response.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
+            }
+            LOGGER.info("Successfully converted JSON file to Excel.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                    .body(excelBytes);
+        } catch (Exception e) {
+            LOGGER.error("Error processing file for conversion", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
+        }
     }
 }

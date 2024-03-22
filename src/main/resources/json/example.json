@@ -1,0 +1,1673 @@
+[
+  {
+    "task_id": 549,
+    "form_id": 104,
+    "title": "Arve #549",
+    "author_id": 9,
+    "responsible_id": null,
+    "created_at": "2024-03-17T00:00:35.690976+03:00",
+    "last_activity": "2024-03-19T17:07:43.656677+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 1944,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "26.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1949,
+        "form_field_id": 650,
+        "name": "Currency",
+        "value": [
+          "EUR"
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1945,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "dasfdsa"
+            },
+            {
+              "id": 607,
+              "value": "1"
+            },
+            {
+              "id": 608,
+              "value": "1"
+            },
+            {
+              "id": 609,
+              "value": ""
+            },
+            {
+              "id": 610,
+              "value": ""
+            },
+            {
+              "id": 611,
+              "value": ""
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1940,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "EE24001"
+          ],
+          "form_id": 68,
+          "task_id": 499
+        },
+        "files": []
+      },
+      {
+        "item_id": 1950,
+        "form_field_id": 643,
+        "name": "PAYMENT DETAILS",
+        "value": "AS SEB Pank\nTornimäe 2, 15010 Tallinn, Estonia\nIBAN:EE181010220098616014\nSWIFT/BIC: EEUHEE2X",
+        "files": []
+      },
+      {
+        "item_id": 1941,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "Hermann Solutions GMBH",
+            "GErmany",
+            "VAT"
+          ],
+          "form_id": 99,
+          "task_id": 501
+        },
+        "files": []
+      },
+      {
+        "item_id": 1946,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": "100",
+        "files": []
+      },
+      {
+        "item_id": 1951,
+        "form_field_id": 644,
+        "name": "Notes",
+        "value": "Interest rate: 0,5% per day",
+        "files": []
+      },
+      {
+        "item_id": 1952,
+        "form_field_id": 646,
+        "name": "S",
+        "value": [
+          [
+            {
+              "id": 647,
+              "value": ""
+            },
+            {
+              "id": 648,
+              "value": ""
+            },
+            {
+              "id": 649,
+              "value": ""
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1942,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": "EST25476-1",
+        "files": []
+      },
+      {
+        "item_id": 1947,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": "22",
+        "files": []
+      },
+      {
+        "item_id": 1943,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "16.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1948,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": "122",
+        "files": []
+      },
+      {
+        "item_id": 1953,
+        "form_field_id": 654,
+        "name": "Saldo",
+        "value": "",
+        "files": []
+      }
+    ],
+    "parent_id": null,
+    "participants_ids": [],
+    "step_id": null,
+    "step_name": "Participants",
+    "approvers_ids": [],
+    "step_assignments": [],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  },
+  {
+    "task_id": 536,
+    "form_id": 104,
+    "title": "Arve #536",
+    "author_id": 1,
+    "responsible_id": 1,
+    "created_at": "2024-03-08T16:21:05.640322+03:00",
+    "last_activity": "2024-03-19T19:09:38.555220+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 1898,
+        "form_field_id": 643,
+        "name": "PAYMENT DETAILS",
+        "value": "AS SEB Pank\nTornimäe 2, 15010 Tallinn, Estonia\nIBAN:EE181010220098616014\nSWIFT/BIC: EEUHEE2X",
+        "files": []
+      },
+      {
+        "item_id": 1899,
+        "form_field_id": 644,
+        "name": "Notes",
+        "value": "Interest rate: 0,5% per day",
+        "files": []
+      },
+      {
+        "item_id": 1900,
+        "form_field_id": 646,
+        "name": "S",
+        "value": [
+          [
+            {
+              "id": 647,
+              "value": "25.03.2025"
+            },
+            {
+              "id": 648,
+              "value": "389.00"
+            },
+            {
+              "id": 649,
+              "value": "Swedbank AS"
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1904,
+        "form_field_id": 650,
+        "name": "Currency",
+        "value": "EUR",
+        "files": []
+      },
+      {
+        "item_id": 1836,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "Transportion services, Tallinn EE - Stockholm SE "
+            },
+            {
+              "id": 607,
+              "value": "1230.00"
+            },
+            {
+              "id": 608,
+              "value": "1"
+            },
+            {
+              "id": 609,
+              "value": "1230.00"
+            },
+            {
+              "id": 610,
+              "value": "22%"
+            },
+            {
+              "id": 611,
+              "value": "1450.00"
+            }
+          ],
+          [
+            {
+              "id": 606,
+              "value": "Extra costs, Transportion services, Tallinn EE - Stockholm SE"
+            },
+            {
+              "id": 607,
+              "value": "100.00"
+            },
+            {
+              "id": 608,
+              "value": "3"
+            },
+            {
+              "id": 609,
+              "value": "123.00"
+            },
+            {
+              "id": 610,
+              "value": "22%"
+            },
+            {
+              "id": 611,
+              "value": "125.00"
+            }
+          ],
+          [
+            {
+              "id": 606,
+              "value": "Transportion services, Tallinn EE - Stockholm SE"
+            },
+            {
+              "id": 607,
+              "value": ""
+            },
+            {
+              "id": 608,
+              "value": ""
+            },
+            {
+              "id": 609,
+              "value": ""
+            },
+            {
+              "id": 610,
+              "value": ""
+            },
+            {
+              "id": 611,
+              "value": ""
+            }
+          ],
+          [
+            {
+              "id": 606,
+              "value": "Storage services. Period 10.01.2024-25.04.2024"
+            },
+            {
+              "id": 607,
+              "value": ""
+            },
+            {
+              "id": 608,
+              "value": ""
+            },
+            {
+              "id": 609,
+              "value": ""
+            },
+            {
+              "id": 610,
+              "value": ""
+            },
+            {
+              "id": 611,
+              "value": ""
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1831,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "HCL24006"
+          ],
+          "form_id": 68,
+          "task_id": 522
+        },
+        "files": []
+      },
+      {
+        "item_id": 1832,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": "AP24028",
+        "files": []
+      },
+      {
+        "item_id": 1837,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": "323.00",
+        "files": []
+      },
+      {
+        "item_id": 1833,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "08.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1838,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": "66.00",
+        "files": []
+      },
+      {
+        "item_id": 1834,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "18.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1839,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": "389.00",
+        "files": []
+      },
+      {
+        "item_id": 1835,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "CF&S Estonia AS",
+            "Sepise 7, 11415 Tallinn",
+            "10139213"
+          ],
+          "form_id": 99,
+          "task_id": 481
+        },
+        "files": []
+      },
+      {
+        "item_id": 1918,
+        "form_field_id": 654,
+        "name": "Saldo",
+        "value": "",
+        "files": []
+      }
+    ],
+    "parent_id": null,
+    "participants_ids": [
+      9
+    ],
+    "step_id": null,
+    "step_name": "Participants",
+    "approvers_ids": [],
+    "step_assignments": [],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  },
+  {
+    "task_id": 539,
+    "form_id": 104,
+    "title": "Arve #539",
+    "author_id": 1,
+    "responsible_id": null,
+    "created_at": "2024-03-14T13:16:25.648842+03:00",
+    "last_activity": "2024-03-16T14:21:57.119654+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 1857,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "14.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1862,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1859,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "info@herman.com",
+            "Hermann Solutions GMBH",
+            "GErmany",
+            "VAT"
+          ],
+          "form_id": 99,
+          "task_id": 501
+        },
+        "files": []
+      },
+      {
+        "item_id": 1901,
+        "form_field_id": 643,
+        "name": "PAYMENT DETAILS",
+        "value": "AS SEB Pank\nTornimäe 2, 15010 Tallinn, Estonia\nIBAN:EE181010220098616014\nSWIFT/BIC: EEUHEE2X",
+        "files": []
+      },
+      {
+        "item_id": 1902,
+        "form_field_id": 644,
+        "name": "Notes",
+        "value": "Interest rate: 0,5% per day",
+        "files": []
+      },
+      {
+        "item_id": 1903,
+        "form_field_id": 646,
+        "name": "S",
+        "value": [
+          [
+            {
+              "id": 647,
+              "value": "sdf",
+              "table_field_id": 646
+            },
+            {
+              "id": 648,
+              "value": "112",
+              "table_field_id": 646
+            },
+            {
+              "id": 649,
+              "value": "123",
+              "table_field_id": 646
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1858,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "24.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1863,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1855,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "HCL24006"
+          ],
+          "form_id": 68,
+          "task_id": 522
+        },
+        "files": []
+      },
+      {
+        "item_id": 1860,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "dsfsdf",
+              "table_field_id": 605
+            },
+            {
+              "id": 607,
+              "value": "fgh",
+              "table_field_id": 605
+            },
+            {
+              "id": 608,
+              "value": "fghh",
+              "table_field_id": 605
+            },
+            {
+              "id": 609,
+              "value": "fg",
+              "table_field_id": 605
+            },
+            {
+              "id": 610,
+              "value": "123",
+              "table_field_id": 605
+            },
+            {
+              "id": 611,
+              "value": "fgh",
+              "table_field_id": 605
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1856,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1861,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": null,
+        "files": []
+      }
+    ],
+    "parent_id": null,
+    "participants_ids": [],
+    "step_id": null,
+    "step_name": "Participants",
+    "approvers_ids": [],
+    "step_assignments": [],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  },
+  {
+    "task_id": 546,
+    "form_id": 104,
+    "title": "Arve #546",
+    "author_id": 1,
+    "responsible_id": null,
+    "created_at": "2024-03-16T14:43:24.428190+03:00",
+    "last_activity": "2024-03-16T14:43:24.599470+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 1908,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "26.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1913,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1905,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "342334"
+          ],
+          "form_id": 68,
+          "task_id": 540
+        },
+        "files": []
+      },
+      {
+        "item_id": 1910,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 607,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 608,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 609,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 610,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 611,
+              "value": "",
+              "table_field_id": 605
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1915,
+        "form_field_id": 643,
+        "name": "PAYMENT DETAILS",
+        "value": "AS SEB Pank\nTornimäe 2, 15010 Tallinn, Estonia\nIBAN:EE181010220098616014\nSWIFT/BIC: EEUHEE2X",
+        "files": []
+      },
+      {
+        "item_id": 1906,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1911,
+        "form_field_id": 650,
+        "name": "Currency",
+        "value": "EUR",
+        "files": []
+      },
+      {
+        "item_id": 1916,
+        "form_field_id": 644,
+        "name": "Notes",
+        "value": "Interest rate: 0,5% per day",
+        "files": []
+      },
+      {
+        "item_id": 1907,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "16.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1912,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1917,
+        "form_field_id": 646,
+        "name": "S",
+        "value": [
+          [
+            {
+              "id": 647,
+              "value": "",
+              "table_field_id": 646
+            },
+            {
+              "id": 648,
+              "value": "",
+              "table_field_id": 646
+            },
+            {
+              "id": 649,
+              "value": "",
+              "table_field_id": 646
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1909,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "TEST Company",
+            "Test adress",
+            "TEST"
+          ],
+          "form_id": 99,
+          "task_id": 497
+        },
+        "files": []
+      },
+      {
+        "item_id": 1914,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": null,
+        "files": []
+      }
+    ],
+    "parent_id": null,
+    "participants_ids": [],
+    "step_id": null,
+    "step_name": "Participants",
+    "approvers_ids": [],
+    "step_assignments": [],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  },
+  {
+    "task_id": 537,
+    "form_id": 104,
+    "title": "Arve #537",
+    "author_id": 1,
+    "responsible_id": null,
+    "created_at": "2024-03-11T13:25:52.088862+03:00",
+    "last_activity": "2024-03-14T13:22:49.387431+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 1840,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "EE24001"
+          ],
+          "form_id": 68,
+          "task_id": 499
+        },
+        "files": []
+      },
+      {
+        "item_id": 1845,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 607,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 608,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 609,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 610,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 611,
+              "value": "",
+              "table_field_id": 605
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1841,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1846,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1842,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "11.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1847,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1843,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "21.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1848,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": null,
+        "files": []
+      },
+      {
+        "item_id": 1844,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "GRSMARINE OÜ",
+            "11937709",
+            "grs@grsmarine.eu",
+            "Mahtra tn 30a, 13811 Tallinn, Estonia"
+          ],
+          "form_id": 99,
+          "task_id": 483
+        },
+        "files": []
+      }
+    ],
+    "parent_id": null,
+    "participants_ids": [],
+    "step_id": null,
+    "step_name": "Participants",
+    "approvers_ids": [],
+    "step_assignments": [],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  },
+  {
+    "task_id": 550,
+    "form_id": 104,
+    "title": "Arve #550",
+    "author_id": 1,
+    "responsible_id": null,
+    "created_at": "2024-03-17T12:33:47.244088+03:00",
+    "last_activity": "2024-03-17T12:33:47.413315+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 1954,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "HCL24006"
+          ],
+          "form_id": 68,
+          "task_id": 522
+        },
+        "files": []
+      },
+      {
+        "item_id": 1958,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "27.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1962,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": "122",
+        "files": []
+      },
+      {
+        "item_id": 1966,
+        "form_field_id": 646,
+        "name": "S",
+        "value": [
+          [
+            {
+              "id": 647,
+              "value": "",
+              "table_field_id": 646
+            },
+            {
+              "id": 648,
+              "value": "",
+              "table_field_id": 646
+            },
+            {
+              "id": 649,
+              "value": "",
+              "table_field_id": 646
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1955,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "CF&S Estonia AS",
+            "Sepise 7, 11415 Tallinn",
+            "10139213"
+          ],
+          "form_id": 99,
+          "task_id": 481
+        },
+        "files": []
+      },
+      {
+        "item_id": 1959,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "gg",
+              "table_field_id": 605
+            },
+            {
+              "id": 607,
+              "value": "21",
+              "table_field_id": 605
+            },
+            {
+              "id": 608,
+              "value": "1",
+              "table_field_id": 605
+            },
+            {
+              "id": 609,
+              "value": "1",
+              "table_field_id": 605
+            },
+            {
+              "id": 610,
+              "value": "1",
+              "table_field_id": 605
+            },
+            {
+              "id": 611,
+              "value": "1",
+              "table_field_id": 605
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1963,
+        "form_field_id": 650,
+        "name": "Currency",
+        "value": "USD",
+        "files": []
+      },
+      {
+        "item_id": 1967,
+        "form_field_id": 654,
+        "name": "Saldo",
+        "value": "",
+        "files": []
+      },
+      {
+        "item_id": 1956,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": "",
+        "files": []
+      },
+      {
+        "item_id": 1960,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": "100",
+        "files": []
+      },
+      {
+        "item_id": 1964,
+        "form_field_id": 643,
+        "name": "PAYMENT DETAILS",
+        "value": "AS SEB Pank\nTornimäe 2, 15010 Tallinn, Estonia\nIBAN:EE181010220098616014\nSWIFT/BIC: EEUHEE2X",
+        "files": []
+      },
+      {
+        "item_id": 1957,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "17.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1961,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": "22",
+        "files": []
+      },
+      {
+        "item_id": 1965,
+        "form_field_id": 644,
+        "name": "Notes",
+        "value": "Interest rate: 0,5% per day",
+        "files": []
+      }
+    ],
+    "parent_id": 522,
+    "participants_ids": [],
+    "step_id": null,
+    "step_name": "Participants",
+    "approvers_ids": [],
+    "step_assignments": [],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  },
+  {
+    "task_id": 561,
+    "form_id": 104,
+    "title": "Arve #561",
+    "author_id": 1,
+    "responsible_id": 1,
+    "created_at": "2024-03-20T16:32:35.567928+03:00",
+    "last_activity": "2024-03-20T16:34:43.046007+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 2023,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "TEST Company",
+            "Test adress",
+            "TEST"
+          ],
+          "form_id": 99,
+          "task_id": 497
+        },
+        "files": []
+      },
+      {
+        "item_id": 2025,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "20.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 2024,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": "INV24-106",
+        "files": []
+      },
+      {
+        "item_id": 2026,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "30.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 2022,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "HCL24-001"
+          ],
+          "form_id": 68,
+          "task_id": 560
+        },
+        "files": []
+      },
+      {
+        "item_id": 2028,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": "600",
+        "files": []
+      },
+      {
+        "item_id": 2029,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": "0",
+        "files": []
+      },
+      {
+        "item_id": 2030,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": "600",
+        "files": []
+      },
+      {
+        "item_id": 2027,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "Service"
+            },
+            {
+              "id": 607,
+              "value": "100"
+            },
+            {
+              "id": 608,
+              "value": "6"
+            },
+            {
+              "id": 609,
+              "value": "100"
+            },
+            {
+              "id": 610,
+              "value": "0%"
+            },
+            {
+              "id": 611,
+              "value": "600"
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 2032,
+        "form_field_id": 643,
+        "name": "PAYMENT DETAILS",
+        "value": "AS SEB Pank\nTornimäe 2, 15010 Tallinn, Estonia\nIBAN:EE181010220098616014\nSWIFT/BIC: EEUHEE2X",
+        "files": []
+      },
+      {
+        "item_id": 2033,
+        "form_field_id": 644,
+        "name": "Notes",
+        "value": "Interest rate: 0,5% per day",
+        "files": []
+      },
+      {
+        "item_id": 2034,
+        "form_field_id": 646,
+        "name": "S",
+        "value": [
+          [
+            {
+              "id": 647,
+              "value": "10.04.2025"
+            },
+            {
+              "id": 648,
+              "value": "600"
+            },
+            {
+              "id": 649,
+              "value": "SWEDBANK"
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 2031,
+        "form_field_id": 650,
+        "name": "Currency",
+        "value": "EUR",
+        "files": []
+      },
+      {
+        "item_id": 2035,
+        "form_field_id": 654,
+        "name": "Saldo",
+        "value": "0",
+        "files": []
+      }
+    ],
+    "parent_id": 560,
+    "participants_ids": [],
+    "step_id": 57,
+    "step_name": "Paid",
+    "approvers_ids": [
+      6
+    ],
+    "step_assignments": [
+      {
+        "assignee_id": 1,
+        "step_role_id": 1,
+        "is_confirmed": false,
+        "step_id": 57
+      },
+      {
+        "assignee_id": 6,
+        "step_role_id": 2,
+        "is_confirmed": false,
+        "step_id": 57
+      }
+    ],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  },
+  {
+    "task_id": 553,
+    "form_id": 104,
+    "title": "Arve #553",
+    "author_id": 1,
+    "responsible_id": 1,
+    "created_at": "2024-03-19T16:51:06.910084+03:00",
+    "last_activity": "2024-03-19T16:52:15.453361+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 1985,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": "hcl0101",
+        "files": []
+      },
+      {
+        "item_id": 1990,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": "0",
+        "files": []
+      },
+      {
+        "item_id": 1995,
+        "form_field_id": 646,
+        "name": "S",
+        "value": [
+          [
+            {
+              "id": 647,
+              "value": "0"
+            },
+            {
+              "id": 648,
+              "value": "0"
+            },
+            {
+              "id": 649,
+              "value": "0"
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1987,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "29.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1992,
+        "form_field_id": 650,
+        "name": "Currency",
+        "value": [
+          "EUR"
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1986,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "19.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1991,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": "1000",
+        "files": []
+      },
+      {
+        "item_id": 1996,
+        "form_field_id": 654,
+        "name": "Saldo",
+        "value": "0",
+        "files": []
+      },
+      {
+        "item_id": 1983,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "EE24001"
+          ],
+          "form_id": 68,
+          "task_id": 499
+        },
+        "files": []
+      },
+      {
+        "item_id": 1993,
+        "form_field_id": 643,
+        "name": "PAYMENT DETAILS",
+        "value": "AS SEB Pank\nTornimäe 2, 15010 Tallinn, Estonia\nIBAN:EE181010220098616014\nSWIFT/BIC: EEUHEE2X",
+        "files": []
+      },
+      {
+        "item_id": 1988,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "Transportion services, Tallinn EE - Stockholm SE"
+            },
+            {
+              "id": 607,
+              "value": "1090"
+            },
+            {
+              "id": 608,
+              "value": "1"
+            },
+            {
+              "id": 609,
+              "value": "1090"
+            },
+            {
+              "id": 610,
+              "value": "22%"
+            },
+            {
+              "id": 611,
+              "value": "1090"
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1984,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "GRSMARINE OÜ",
+            "11937709",
+            "Mahtra tn 30a, 13811 Tallinn, Estonia"
+          ],
+          "form_id": 99,
+          "task_id": 483
+        },
+        "files": []
+      },
+      {
+        "item_id": 1989,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": "1000",
+        "files": []
+      },
+      {
+        "item_id": 1994,
+        "form_field_id": 644,
+        "name": "Notes",
+        "value": "Interest rate: 0,5% per day",
+        "files": []
+      }
+    ],
+    "parent_id": null,
+    "participants_ids": [],
+    "step_id": 56,
+    "step_name": "Unpaid",
+    "approvers_ids": [],
+    "step_assignments": [
+      {
+        "assignee_id": 1,
+        "step_role_id": 1,
+        "is_confirmed": false,
+        "step_id": 56
+      }
+    ],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  },
+  {
+    "task_id": 551,
+    "form_id": 104,
+    "title": "Arve #551",
+    "author_id": 1,
+    "responsible_id": null,
+    "created_at": "2024-03-17T12:52:59.876429+03:00",
+    "last_activity": "2024-03-17T12:53:00.066693+03:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 1968,
+        "form_field_id": 564,
+        "name": "Order#",
+        "value": {
+          "values": [
+            "HCL24006"
+          ],
+          "form_id": 68,
+          "task_id": 522
+        },
+        "files": []
+      },
+      {
+        "item_id": 1973,
+        "form_field_id": 605,
+        "name": "Table",
+        "value": [
+          [
+            {
+              "id": 606,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 607,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 608,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 609,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 610,
+              "value": "",
+              "table_field_id": 605
+            },
+            {
+              "id": 611,
+              "value": "",
+              "table_field_id": 605
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1978,
+        "form_field_id": 643,
+        "name": "PAYMENT DETAILS",
+        "value": "AS SEB Pank\nTornimäe 2, 15010 Tallinn, Estonia\nIBAN:EE181010220098616014\nSWIFT/BIC: EEUHEE2X",
+        "files": []
+      },
+      {
+        "item_id": 1969,
+        "form_field_id": 554,
+        "name": "Customer",
+        "value": {
+          "values": [
+            "Hermann Solutions GMBH",
+            "GErmany",
+            "VAT"
+          ],
+          "form_id": 99,
+          "task_id": 501
+        },
+        "files": []
+      },
+      {
+        "item_id": 1974,
+        "form_field_id": 599,
+        "name": "Netto",
+        "value": "wqe",
+        "files": []
+      },
+      {
+        "item_id": 1979,
+        "form_field_id": 644,
+        "name": "Notes",
+        "value": "Interest rate: 0,5% per day",
+        "files": []
+      },
+      {
+        "item_id": 1970,
+        "form_field_id": 556,
+        "name": "Invoice",
+        "value": "zxcxzc",
+        "files": []
+      },
+      {
+        "item_id": 1975,
+        "form_field_id": 600,
+        "name": "Vat",
+        "value": "e",
+        "files": []
+      },
+      {
+        "item_id": 1980,
+        "form_field_id": 646,
+        "name": "S",
+        "value": [
+          [
+            {
+              "id": 647,
+              "value": "",
+              "table_field_id": 646
+            },
+            {
+              "id": 648,
+              "value": "",
+              "table_field_id": 646
+            },
+            {
+              "id": 649,
+              "value": "",
+              "table_field_id": 646
+            }
+          ]
+        ],
+        "files": []
+      },
+      {
+        "item_id": 1971,
+        "form_field_id": 555,
+        "name": "Date",
+        "value": "17.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1976,
+        "form_field_id": 602,
+        "name": "Total",
+        "value": "w",
+        "files": []
+      },
+      {
+        "item_id": 1981,
+        "form_field_id": 654,
+        "name": "Saldo",
+        "value": "",
+        "files": []
+      },
+      {
+        "item_id": 1972,
+        "form_field_id": 562,
+        "name": "Due date",
+        "value": "27.03.2024",
+        "files": []
+      },
+      {
+        "item_id": 1977,
+        "form_field_id": 650,
+        "name": "Currency",
+        "value": [
+          "EUR"
+        ],
+        "files": []
+      }
+    ],
+    "parent_id": null,
+    "participants_ids": [],
+    "step_id": 57,
+    "step_name": "Paid",
+    "approvers_ids": [
+      6
+    ],
+    "step_assignments": [
+      {
+        "assignee_id": 1,
+        "step_role_id": 1,
+        "is_confirmed": false,
+        "step_id": 57
+      },
+      {
+        "assignee_id": 6,
+        "step_role_id": 2,
+        "is_confirmed": false,
+        "step_id": 57
+      }
+    ],
+    "is_closable": false,
+    "icon": null,
+    "icon_color": null
+  }
+]
