@@ -9,14 +9,14 @@ RUN apt-get update && \
 ENV CHROME_VERSION=114.0.5735.90-1
 RUN wget --no-verbose -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb && \
     apt install -y /tmp/chrome.deb && \
-    rm /tmp/chrome.deb && \
+    rm /tmp/chrome.deb
 
 ENV CHROMEDRIVER_VERSION=114.0.5735.90
 RUN wget -q --continue -P /chromedriver "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
     unzip /chromedriver/chromedriver* -d /usr/local/bin/ && \
-    rm -rf /chromedriver && \
+    rm -rf /chromedriver
 
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     libreoffice \
     libreoffice-writer \
     libreoffice-calc \

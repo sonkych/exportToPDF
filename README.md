@@ -53,6 +53,7 @@ After compiling the jar, you can create and run a Docker container with the appl
     Adjust the port mappings as necessary for your setup.
 
 ## Available Endpoints
+Use `swagger-ui/index.html` to access swagger documentation for the API.
 
 The application exposes 4 endpoints for file conversion:
 
@@ -73,7 +74,9 @@ The application exposes 4 endpoints for file conversion:
 
 - **JSON to CSV Conversion:** `POST /api/converter/json2csv`
 
-   Attach the JSON file you wish to convert in the request body.
+
+
+The application exposes 4 endpoints for file conversion:
 ## Usage Example
 
 To use the conversion service, send a POST request to the relevant endpoint with the file attached. Here's an example using `curl`:
