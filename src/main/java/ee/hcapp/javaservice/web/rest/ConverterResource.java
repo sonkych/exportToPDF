@@ -1,11 +1,7 @@
 package ee.hcapp.javaservice.web.rest;
 
-
 import com.google.common.net.HttpHeaders;
-import ee.hcapp.javaservice.converter.HtmlPdfConverter;
-import ee.hcapp.javaservice.converter.JsonExcelConverter;
-import ee.hcapp.javaservice.converter.JsonCsvConverter;
-import ee.hcapp.javaservice.converter.LibreOfficeService;
+import ee.hcapp.javaservice.converter.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,12 +18,14 @@ public class ConverterResource {
     private final HtmlPdfConverter htmlPdfConverter;
     private final JsonExcelConverter jsonExcelConverter;
     private final JsonCsvConverter jsonCsvConverter;
+    private final JsonPdfConverter jsonPdfConverter;
 
-    public ConverterResource(LibreOfficeService libreOfficeService, HtmlPdfConverter htmlPdfConverter, JsonExcelConverter jsonExcelConverter, JsonCsvConverter jsonCsvConverter) {
+    public ConverterResource(LibreOfficeService libreOfficeService, HtmlPdfConverter htmlPdfConverter, JsonExcelConverter jsonExcelConverter, JsonCsvConverter jsonCsvConverter, JsonPdfConverter jsonPdfConverter) {
         this.libreOfficeService = libreOfficeService;
         this.htmlPdfConverter = htmlPdfConverter;
         this.jsonExcelConverter = jsonExcelConverter;
         this.jsonCsvConverter = jsonCsvConverter;
+        this.jsonPdfConverter = jsonPdfConverter;
     }
 
     @PostMapping("/excel2pdf")
@@ -118,7 +116,7 @@ public class ConverterResource {
         }
 
         try {
-            byte[] csvBytes = jsonCsvConverter.convert(file); // Используем сервис для конвертации
+            byte[] csvBytes = jsonCsvConverter.convert(file);
             if (csvBytes == null) {
                 LOGGER.error("Conversion failed with null response.");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
@@ -128,6 +126,32 @@ public class ConverterResource {
                     .contentType(MediaType.parseMediaType("text/csv"))
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"converted.csv\"")
                     .body(csvBytes);
+        } catch (Exception e) {
+            LOGGER.error("Error processing file for conversion", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
+        }
+    }
+
+    @PostMapping("/json2pdf")
+    public ResponseEntity<?> convertJsonToPdf(@RequestParam("file") MultipartFile file) {
+        LOGGER.info("Received request to convert JSON to PDF.");
+
+        if (file.isEmpty()) {
+            LOGGER.error("Failed to convert JSON to PDF: file is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty.");
+        }
+
+        try {
+            byte[] pdfBytes = jsonPdfConverter.convert(file);
+            if (pdfBytes == null) {
+                LOGGER.error("Conversion failed with null response.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
+            }
+            LOGGER.info("Successfully converted JSON file to PDF.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"converted.pdf\"")
+                    .body(pdfBytes);
         } catch (Exception e) {
             LOGGER.error("Error processing file for conversion", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
