@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.PdfPCell;
+import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -128,7 +130,8 @@ public class JsonPdfConverter {
     }
 
     private Font getFontForCyrillic() throws DocumentException, IOException {
-        BaseFont bf = BaseFont.createFont("classpath:fonts/times.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        InputStream fontStream = new ClassPathResource("fonts/times.ttf").getInputStream();
+        BaseFont bf = BaseFont.createFont("times.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED, true, IOUtils.toByteArray(fontStream), null);
         Font font = new Font(bf, 8);
         return font;
     }
