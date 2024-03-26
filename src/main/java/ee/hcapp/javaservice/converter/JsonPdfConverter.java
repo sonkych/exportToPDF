@@ -128,7 +128,7 @@ public class JsonPdfConverter {
     }
 
     private Font getFontForCyrillic() throws DocumentException, IOException {
-        BaseFont bf = BaseFont.createFont("classpath:fonts/your_font.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        BaseFont bf = BaseFont.createFont("classpath:fonts/times.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         Font font = new Font(bf, 8);
         return font;
     }
