@@ -39,7 +39,7 @@ After compiling the jar, you can create and run a Docker container with the appl
     Create a `Dockerfile` in the project root with the necessary instructions to build your image. Then, run:
 
     ```bash
-    docker build -t file-conversion-service .
+    docker build -t java-service .   
     ```
 
 2. **Run the Container:**
@@ -47,7 +47,7 @@ After compiling the jar, you can create and run a Docker container with the appl
     Once the image is built, start a container:
 
     ```bash
-    docker run -d -p 8080:8080 file-conversion-service
+    docker run -p 8080:8080 --name java-service java-service
     ```
 
     Adjust the port mappings as necessary for your setup.
@@ -73,10 +73,6 @@ The application exposes 4 endpoints for file conversion:
 
 
 - **JSON to CSV Conversion:** `POST /api/converter/json2csv`
-
-
-
-The application exposes 4 endpoints for file conversion:
 ## Usage Example
 
 To use the conversion service, send a POST request to the relevant endpoint with the file attached. Here's an example using `curl`:
