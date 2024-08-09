@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  java-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      my_custom_network:
+        ipv4_address: 192.168.32.80
+    container_name: java-service
+
+networks:
+  my_custom_network:
+    external:
+      name: template_printer_server-local
