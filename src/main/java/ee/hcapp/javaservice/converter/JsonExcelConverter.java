@@ -79,30 +79,24 @@ public class JsonExcelConverter {
         StringBuilder sb = new StringBuilder();
 
         if (valueNode.isArray()) {
+            List<String> arrayValues = new ArrayList<>();
             for (JsonNode arrayElement : valueNode) {
-                if (arrayElement.isArray()) {
-                    List<String> innerValues = new ArrayList<>();
-                    for (JsonNode innerElement : arrayElement) {
-                        if (innerElement.isObject() && innerElement.has("value") && !innerElement.get("value").asText().isEmpty()) {
-                            innerValues.add(innerElement.get("value").asText());
-                        }
-                    }
-                    if (!innerValues.isEmpty()) {
-                        if (sb.length() > 0) sb.append("\n");
-                        sb.append(String.join(", ", innerValues));
-                    }
-                } else if (arrayElement.isObject() && arrayElement.has("value")) {
-                    if (sb.length() > 0) sb.append("\n");
-                    sb.append(arrayElement.get("value").asText());
+                if (arrayElement.isTextual()) {
+                    arrayValues.add(arrayElement.asText());
+                } else if (arrayElement.isArray() || arrayElement.isObject()) {
+                    arrayValues.add(extractValue(arrayElement, cell));
                 }
+            }
+            if (!arrayValues.isEmpty()) {
+                sb.append(String.join(", ", arrayValues));
             }
         } else if (valueNode.isObject()) {
             if (valueNode.has("values") && valueNode.get("values").isArray()) {
                 List<String> objectValues = new ArrayList<>();
-                for (JsonNode objValue : valueNode.get("values")) {
-                    objectValues.add(objValue.asText());
-                }
+                valueNode.get("values").forEach(objValue -> objectValues.add(objValue.asText()));
                 sb.append(String.join(", ", objectValues));
+            } else if (valueNode.has("value")) {
+                sb.append(valueNode.get("value").asText());
             }
         } else if (valueNode.isTextual()) {
             sb.append(valueNode.asText());
@@ -114,9 +108,9 @@ public class JsonExcelConverter {
             cell.setCellStyle(cellStyle);
         }
 
-        cell.setCellValue(sb.toString());
         return sb.toString();
     }
+
 
     private JsonNode findValueNodeByName(JsonNode itemsNode, String name) {
         for (JsonNode item : itemsNode) {

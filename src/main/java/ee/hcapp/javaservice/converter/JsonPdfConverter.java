@@ -97,22 +97,16 @@ public class JsonPdfConverter {
         StringBuilder sb = new StringBuilder();
 
         if (valueNode.isArray()) {
+            List<String> arrayValues = new ArrayList<>();
             for (JsonNode arrayElement : valueNode) {
-                if (arrayElement.isArray()) {
-                    List<String> innerValues = new ArrayList<>();
-                    for (JsonNode innerElement : arrayElement) {
-                        if (innerElement.isObject() && innerElement.has("value") && !innerElement.get("value").asText().isEmpty()) {
-                            innerValues.add(innerElement.get("value").asText());
-                        }
-                    }
-                    if (!innerValues.isEmpty()) {
-                        if (sb.length() > 0) sb.append("\n");
-                        sb.append(String.join(", ", innerValues));
-                    }
-                } else if (arrayElement.isObject() && arrayElement.has("value")) {
-                    if (sb.length() > 0) sb.append("\n");
-                    sb.append(arrayElement.get("value").asText());
+                if (arrayElement.isTextual()) {
+                    arrayValues.add(arrayElement.asText());
+                } else if (arrayElement.isArray() || arrayElement.isObject()) {
+                    arrayValues.add(extractValue(arrayElement));
                 }
+            }
+            if (!arrayValues.isEmpty()) {
+                sb.append(String.join(", ", arrayValues));
             }
         } else if (valueNode.isObject()) {
             if (valueNode.has("values") && valueNode.get("values").isArray()) {
@@ -121,6 +115,8 @@ public class JsonPdfConverter {
                     objectValues.add(objValue.asText());
                 }
                 sb.append(String.join(", ", objectValues));
+            } else if (valueNode.has("value")) {
+                sb.append(valueNode.get("value").asText());
             }
         } else if (valueNode.isTextual()) {
             sb.append(valueNode.asText());
@@ -128,6 +124,7 @@ public class JsonPdfConverter {
 
         return sb.toString();
     }
+
 
     private Font getFontForCyrillic() throws DocumentException, IOException {
         InputStream fontStream = new ClassPathResource("fonts/times.ttf").getInputStream();
