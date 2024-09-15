@@ -134,7 +134,7 @@ public class ConverterResource {
 
     @PostMapping("/json2pdf")
     public ResponseEntity<?> convertJsonToPdf(@RequestParam("file") MultipartFile file) {
-        LOGGER.info("Received request to convert JSON to PDF.");
+        LOGGER.info("Received request to convert JSON to PDF updated.");
 
         if (file.isEmpty()) {
             LOGGER.error("Failed to convert JSON to PDF: file is empty.");

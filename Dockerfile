@@ -1,3 +1,20 @@
+# Этап 1: Сборка JAR-файла
+FROM maven:3.8.5-openjdk-17 AS build
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем файл pom.xml и загружаем зависимости
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Копируем исходный код проекта
+COPY src ./src
+
+# Собираем JAR-файл
+RUN mvn package -DskipTests
+
+# Этап 2: Создание финального образа
 FROM openjdk:17-slim
 
 # Установка необходимых пакетов и добавление репозитория Google Chrome
@@ -25,11 +42,13 @@ RUN apt-get update && apt-get install -y \
     procps && \
     rm -rf /var/lib/apt/lists/*
 
-# Установка рабочего каталога и копирование файлов
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+# Копируем собранный JAR-файл из предыдущего этапа
+COPY --from=build /app/target/*.jar app.jar
+
+# Копируем скрипт entrypoint
 COPY entrypoint.sh entrypoint.sh
 
 RUN chmod +x entrypoint.sh
