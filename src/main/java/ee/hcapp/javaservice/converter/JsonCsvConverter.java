@@ -70,28 +70,24 @@ public class JsonCsvConverter {
         StringBuilder sb = new StringBuilder();
 
         if (valueNode.isArray()) {
+            List<String> arrayValues = new ArrayList<>();
             for (JsonNode arrayElement : valueNode) {
-                if (arrayElement.isArray()) {
-                    List<String> innerValues = new ArrayList<>();
-                    arrayElement.forEach(innerElement -> {
-                        if (innerElement.isObject() && innerElement.has("value") && !innerElement.get("value").asText().isEmpty()) {
-                            innerValues.add(innerElement.get("value").asText());
-                        }
-                    });
-                    if (!innerValues.isEmpty()) {
-                        if (sb.length() > 0) sb.append("\n"); // Использование "\n" для визуального разделения вложенных структур
-                        sb.append(String.join(", ", innerValues));
-                    }
-                } else if (arrayElement.isObject() && arrayElement.has("value")) {
-                    if (sb.length() > 0) sb.append("\n");
-                    sb.append(arrayElement.get("value").asText());
+                if (arrayElement.isTextual()) {
+                    arrayValues.add(arrayElement.asText());
+                } else if (arrayElement.isArray() || arrayElement.isObject()) {
+                    arrayValues.add(extractValue(arrayElement));
                 }
+            }
+            if (!arrayValues.isEmpty()) {
+                sb.append(String.join(", ", arrayValues));
             }
         } else if (valueNode.isObject()) {
             if (valueNode.has("values") && valueNode.get("values").isArray()) {
                 List<String> objectValues = new ArrayList<>();
                 valueNode.get("values").forEach(objValue -> objectValues.add(objValue.asText()));
                 sb.append(String.join(", ", objectValues));
+            } else if (valueNode.has("value")) {
+                sb.append(valueNode.get("value").asText());
             }
         } else if (valueNode.isTextual()) {
             sb.append(valueNode.asText());
