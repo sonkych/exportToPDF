@@ -1,0 +1,37 @@
+{
+  "group_by": "author_id",
+  "rows": [
+    {
+      "id": 1,
+      "name": "Dev  Andrei HCAPP",
+      "open": {
+        "count": 1,
+        "sum": -150
+      },
+      "overdue": {
+        "count": 1,
+        "sum": -150
+      },
+      "total": {
+        "count": 1,
+        "sum": -150
+      }
+    },
+    {
+      "id": 2,
+      "name": "Daniil Peterson",
+      "open": {
+        "count": 1,
+        "sum": -438
+      },
+      "overdue": {
+        "count": 1,
+        "sum": -438
+      },
+      "total": {
+        "count": 1,
+        "sum": -438
+      }
+    }
+  ]
+}
