@@ -110,7 +110,7 @@ public class ConverterResource {
         }
 
         try {
-            byte[] excelBytes = jsonExcelConverter.convertTask(file);
+            byte[] excelBytes = jsonExcelConverter.convert(file);
             if (excelBytes == null) {
                 LOGGER.error("Conversion failed with null response.");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
