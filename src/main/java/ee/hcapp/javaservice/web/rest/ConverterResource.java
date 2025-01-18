@@ -19,13 +19,26 @@ public class ConverterResource {
     private final JsonExcelConverter jsonExcelConverter;
     private final JsonCsvConverter jsonCsvConverter;
     private final JsonPdfConverter jsonPdfConverter;
+    private final DashboardJsonExcelConverter dashboardJsonConverter;
+    private final DashboardJsonPdfConverter dashboardPdfConverter;
+    private final DashboardJsonCsvConverter dashboardCsvConverter;
 
-    public ConverterResource(LibreOfficeService libreOfficeService, HtmlPdfConverter htmlPdfConverter, JsonExcelConverter jsonExcelConverter, JsonCsvConverter jsonCsvConverter, JsonPdfConverter jsonPdfConverter) {
+    public ConverterResource(LibreOfficeService libreOfficeService,
+                             HtmlPdfConverter htmlPdfConverter,
+                             JsonExcelConverter jsonExcelConverter,
+                             JsonCsvConverter jsonCsvConverter,
+                             JsonPdfConverter jsonPdfConverter,
+                             DashboardJsonExcelConverter dashboardJsonConverter,
+                             DashboardJsonPdfConverter dashboardPdfConverter,
+                             DashboardJsonCsvConverter dashboardCsvConverter) {
         this.libreOfficeService = libreOfficeService;
         this.htmlPdfConverter = htmlPdfConverter;
         this.jsonExcelConverter = jsonExcelConverter;
         this.jsonCsvConverter = jsonCsvConverter;
         this.jsonPdfConverter = jsonPdfConverter;
+        this.dashboardJsonConverter = dashboardJsonConverter;
+        this.dashboardPdfConverter = dashboardPdfConverter;
+        this.dashboardCsvConverter = dashboardCsvConverter;
     }
 
     @PostMapping("/excel2pdf")
@@ -80,6 +93,13 @@ public class ConverterResource {
         }
     }
 
+    @PostMapping("/task2pdf")
+    public ResponseEntity<?> convertTaskToPdf(@RequestParam("file") MultipartFile file) {
+        LOGGER.info("Received request to convert task to PDF.");
+
+        return null;
+    }
+
     @PostMapping("/json2excel")
     public ResponseEntity<?> convertJsonToExcel(@RequestParam("file") MultipartFile file) {
         LOGGER.info("Received request to convert JSON to Excel.");
@@ -90,7 +110,7 @@ public class ConverterResource {
         }
 
         try {
-            byte[] excelBytes = jsonExcelConverter.convert(file);
+            byte[] excelBytes = jsonExcelConverter.convertTask(file);
             if (excelBytes == null) {
                 LOGGER.error("Conversion failed with null response.");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
@@ -152,6 +172,84 @@ public class ConverterResource {
                     .contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"converted.pdf\"")
                     .body(pdfBytes);
+        } catch (Exception e) {
+            LOGGER.error("Error processing file for conversion", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
+        }
+    }
+
+    @PostMapping("/dashboardJson2pdf")
+    public ResponseEntity<?> convertDashboardJsonToPdf(@RequestParam("file") MultipartFile file) {
+        LOGGER.info("Received request to convert dashboard JSON to PDF.");
+
+        if (file.isEmpty()) {
+            LOGGER.error("Failed to convert JSON to PDF: file is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty.");
+        }
+
+        try {
+            byte[] pdfBytes = dashboardPdfConverter.convertDashboard(file);
+            if (pdfBytes == null) {
+                LOGGER.error("Conversion failed with null response.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
+            }
+            LOGGER.info("Successfully converted JSON file to PDF.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"converted.pdf\"")
+                    .body(pdfBytes);
+        } catch (Exception e) {
+            LOGGER.error("Error processing file for conversion", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
+        }
+    }
+
+    @PostMapping("/dashboardJson2excel")
+    public ResponseEntity<?> convertDashboardJsonToExcel(@RequestParam(value = "file", required = false) MultipartFile file) {
+        LOGGER.info("Received request to convert dashboard JSON to EXCEL.");
+
+        if (file.isEmpty()) {
+            LOGGER.error("Failed to convert JSON to Excel: file is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty.");
+        }
+
+        try {
+            byte[] excelBytes = dashboardJsonConverter.convertDashboard(file);
+            if (excelBytes == null) {
+                LOGGER.error("Conversion failed with null response.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
+            }
+            LOGGER.info("Successfully converted JSON file to Excel.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"converted.xlsx\"")
+                    .body(excelBytes);
+        } catch (Exception e) {
+            LOGGER.error("Error processing file for conversion", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
+        }
+    }
+
+    @PostMapping("/dashboardJson2csv")
+    public ResponseEntity<?> convertDashboardJsonToCsv(@RequestParam("file") MultipartFile file) {
+        LOGGER.info("Received request to convert dashboard JSON to CSV.");
+
+        if (file.isEmpty()) {
+            LOGGER.error("Failed to convert JSON to CSV: file is empty.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File is empty.");
+        }
+
+        try {
+            byte[] csvBytes = dashboardCsvConverter.convertDashboard(file);
+            if (csvBytes == null) {
+                LOGGER.error("Conversion failed with null response.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
+            }
+            LOGGER.info("Successfully converted JSON file to CSV.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("text/csv"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"converted.csv\"")
+                    .body(csvBytes);
         } catch (Exception e) {
             LOGGER.error("Error processing file for conversion", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
