@@ -10,10 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class JsonExcelConverter {
@@ -100,19 +100,6 @@ public class JsonExcelConverter {
         return subHeaders;
     }
 
-
-
-
-
-
-
-
-    // ********************************************************************************************************************
-
-
-
-
-
     private LinkedHashMap<String, Integer> createHeadersMap(JsonNode rootNode) {
         LinkedHashMap<String, Integer> headersMap = new LinkedHashMap<>();
         for (JsonNode node : rootNode) {
@@ -158,8 +145,7 @@ public class JsonExcelConverter {
                     addCellsFromTables = addCellsFromTables + (tableValueNode.get(0).get("items").size() - 1);
                 } else {
                     Cell cell = row.createCell(cellNum);
-                    String cellValue = extractValue(valueNode, cell);
-                    cell.setCellValue(cellValue);
+                    writeValueToCell(valueNode, cell);
                 }
             }
             itemFirstRowNum++;
@@ -192,7 +178,8 @@ public class JsonExcelConverter {
             // Проходим по каждому элементу в текущем ряду
             for (JsonNode item : tableRow.get("items")) {
                 // Записываем значение в текущую ячейку
-                row.createCell(columnNum).setCellValue(item.get("value").asText());
+                Cell cell = row.createCell(columnNum);
+                writeValueToCell(item, cell);
                 columnNum++; // Переходим к следующему столбцу
             }
 
@@ -205,6 +192,147 @@ public class JsonExcelConverter {
         return rowNum;
     }
 
+    private void writeValueToCell(JsonNode valueNode, Cell cell) {
+        if (valueNode == null) {
+            return; // Если значение отсутствует, ничего не делаем
+        }
+
+        // Определяем тип поля по form_field_type
+        if (valueNode.has("form_field_type")) {
+            String fieldType = valueNode.get("form_field_type").asText();
+
+            // Обработка типа "NumberField" (число)
+            if ("NumberField".equals(fieldType)) {
+                String value = valueNode.get("value").asText().replace(",", "."); // Заменяем запятую на точку для чисел
+                try {
+                    // Преобразуем строку в число и записываем
+                    double numericValue = Double.parseDouble(value);
+                    cell.setCellValue(numericValue);
+                    return;
+                } catch (NumberFormatException e) {
+                    // Если не удалось преобразовать в число, записываем как строку
+                    cell.setCellValue(valueNode.asText());
+                    return;
+                }
+            }
+
+            // Обработка типов "DateField" и "DueDateField" (дата)
+            if ("DateField".equals(fieldType) || "DueDateField".equals(fieldType)) {
+                try {
+                    String dateValue = valueNode.get("value").asText();
+
+                    // Преобразуем строку с датой в формат Date
+                    SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    utcFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Указываем UTC как исходный часовой пояс
+
+                    Date date = utcFormat.parse(dateValue); // Парсим строку в объект Date
+
+                    // Преобразуем в Эстонское время
+                    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Tallinn"));
+                    calendar.setTime(date); // Устанавливаем дату в Эстонское время
+
+                    // Устанавливаем правильный формат даты для Excel (день.месяц.год)
+                    CellStyle dateStyle = cell.getSheet().getWorkbook().createCellStyle();
+                    short dateFormat = cell.getSheet().getWorkbook().createDataFormat().getFormat("dd.MM.yyyy");
+                    dateStyle.setDataFormat(dateFormat);
+
+                    // Записываем дату в ячейку в Эстонском времени с заданным форматом
+                    cell.setCellValue(calendar.getTime());
+                    cell.setCellStyle(dateStyle);  // Применяем формат для даты
+
+                } catch (ParseException e) {
+                    // Если не удалось распарсить как дату, записываем как строку
+                    cell.setCellValue(valueNode.asText());
+                }
+                return;
+            }
+        }
+
+        // Обработка массивов и объектов с "values"
+        if (valueNode.isArray()) {
+            List<String> arrayValues = new ArrayList<>();
+            for (JsonNode arrayElement : valueNode) {
+                // Рекурсивная обработка массива или объекта
+                arrayValues.add(extractValue(arrayElement)); // Получаем строковое значение
+            }
+            if (!arrayValues.isEmpty()) {
+                String joinedValues = String.join(", ", arrayValues);
+                cell.setCellValue(joinedValues);
+                // Устанавливаем стиль для оборачивания текста, если есть новая строка
+                if (joinedValues.contains("\n")) {
+                    setWrapTextStyle(cell);
+                }
+            }
+        } else if (valueNode.isObject()) {
+            if (valueNode.has("values") && valueNode.get("values").isArray()) {
+                List<String> objectValues = new ArrayList<>();
+                valueNode.get("values").forEach(objValue -> objectValues.add(objValue.asText()));
+                String joinedObjectValues = String.join(", ", objectValues);
+                cell.setCellValue(joinedObjectValues);
+                // Устанавливаем стиль для оборачивания текста, если есть новая строка
+                if (joinedObjectValues.contains("\n")) {
+                    setWrapTextStyle(cell);
+                }
+            } else if (valueNode.has("value")) {
+                // Если это поле объекта, записываем его "value"
+                String value = valueNode.get("value").asText();
+                cell.setCellValue(value);
+                // Устанавливаем стиль для оборачивания текста, если есть новая строка
+                if (value.contains("\n")) {
+                    setWrapTextStyle(cell);
+                }
+            }
+        } else if (valueNode.isTextual()) {
+            // Если значение текстовое, просто записываем как строку
+            String value = valueNode.asText();
+            cell.setCellValue(value);
+            // Устанавливаем стиль для оборачивания текста, если есть новая строка
+            if (value.contains("\n")) {
+                setWrapTextStyle(cell);
+            }
+        }
+    }
+
+    private void setWrapTextStyle(Cell cell) {
+        CellStyle cellStyle = cell.getSheet().getWorkbook().createCellStyle();
+        cellStyle.setWrapText(true);
+        cell.setCellStyle(cellStyle);
+    }
+
+    private String extractValue(JsonNode valueNode) {
+        // Этот метод будет использоваться для извлечения значений вложенных объектов
+        StringBuilder sb = new StringBuilder();
+
+        if (valueNode != null) {
+            // Пример рекурсивной обработки
+            if (valueNode.isArray()) {
+                List<String> arrayValues = new ArrayList<>();
+                for (JsonNode arrayElement : valueNode) {
+                    if (arrayElement.isTextual()) {
+                        arrayValues.add(arrayElement.asText());
+                    } else if (arrayElement.isObject() || arrayElement.isArray()) {
+                        arrayValues.add(extractValue(arrayElement));  // Рекурсивный вызов для вложенных объектов
+                    }
+                }
+                sb.append(String.join(", ", arrayValues));
+            } else if (valueNode.isObject()) {
+                if (valueNode.has("values") && valueNode.get("values").isArray()) {
+                    List<String> objectValues = new ArrayList<>();
+                    valueNode.get("values").forEach(objValue -> objectValues.add(objValue.asText()));
+                    sb.append(String.join(", ", objectValues));
+                } else if (valueNode.has("value")) {
+                    sb.append(valueNode.get("value").asText());
+                }
+            } else if (valueNode.isTextual()) {
+                sb.append(valueNode.asText());
+            }
+        }
+
+        return sb.toString();  // Возвращаем строку для записи в ячейку
+    }
+
+
+
     private int getTableColumnCount(JsonNode tableValueNode) {
         // Предположим, что все ряды таблицы имеют одинаковое количество колонок
         if (tableValueNode.isArray() && tableValueNode.size() > 0) {
@@ -212,45 +340,6 @@ public class JsonExcelConverter {
             return firstRow.get("items").size();
         }
         return 0; // Если таблица пустая или нет данных
-    }
-
-    private String extractValue(JsonNode valueNode, Cell cell) {
-        if (valueNode == null) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-
-        if (valueNode.isArray()) {
-            List<String> arrayValues = new ArrayList<>();
-            for (JsonNode arrayElement : valueNode) {
-                if (arrayElement.isTextual()) {
-                    arrayValues.add(arrayElement.asText());
-                } else if (arrayElement.isArray() || arrayElement.isObject()) {
-                    arrayValues.add(extractValue(arrayElement, cell));
-                }
-            }
-            if (!arrayValues.isEmpty()) {
-                sb.append(String.join(", ", arrayValues));
-            }
-        } else if (valueNode.isObject()) {
-            if (valueNode.has("values") && valueNode.get("values").isArray()) {
-                List<String> objectValues = new ArrayList<>();
-                valueNode.get("values").forEach(objValue -> objectValues.add(objValue.asText()));
-                sb.append(String.join(", ", objectValues));
-            } else if (valueNode.has("value")) {
-                sb.append(valueNode.get("value").asText());
-            }
-        } else if (valueNode.isTextual()) {
-            sb.append(valueNode.asText());
-        }
-
-        if (sb.indexOf("\n") >= 0) {
-            CellStyle cellStyle = cell.getSheet().getWorkbook().createCellStyle();
-            cellStyle.setWrapText(true);
-            cell.setCellStyle(cellStyle);
-        }
-
-        return sb.toString();
     }
 
 
@@ -263,7 +352,7 @@ public class JsonExcelConverter {
                     return item; // Возвращаем всю структуру таблицы (вместо только value)
                 }
                 // Для обычных элементов возвращаем значение
-                return item.get("value");
+                return item;
             }
         }
         return null;
