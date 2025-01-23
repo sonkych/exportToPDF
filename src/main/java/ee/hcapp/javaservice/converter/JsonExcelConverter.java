@@ -41,6 +41,7 @@ public class JsonExcelConverter {
         Row headerRow = sheet.createRow(rowNum++); // Первая строка для заголовков
 
         int cellIndex = 0; // Индекс для ячеек
+        Row subHeaderRow = null; // Строка для подзаголовков (будет создана один раз)
 
         // Получаем первый элемент из rootNode
         JsonNode node = rootNode.get(0);
@@ -64,8 +65,12 @@ public class JsonExcelConverter {
                 cell.setCellValue(header); // Заголовок для TableField
                 cellIndex += columnCount; // Пропускаем несколько колонок
 
-                // Рисуем подзаголовки для вложенной таблицы на следующей строке
-                Row subHeaderRow = sheet.createRow(rowNum++);
+                // Если строка подзаголовков ещё не была создана, создаём её
+                if (subHeaderRow == null) {
+                    subHeaderRow = sheet.createRow(1); // Подзаголовки идут во второй строке
+                }
+
+                // Рисуем подзаголовки для вложенной таблицы в уже существующую строку
                 List<String> subHeaders = getTableHeaders(valueNode); // Получаем заголовки для вложенной таблицы
 
                 // Пропускаем ячейки, чтобы они выровнялись под главным заголовком
@@ -82,7 +87,6 @@ public class JsonExcelConverter {
 
         return hasTableFields;
     }
-
 
 
     private List<String> getTableHeaders(JsonNode tableValueNode) {
@@ -122,20 +126,24 @@ public class JsonExcelConverter {
     }
 
     private void fillData(Sheet sheet, JsonNode rootNode, LinkedHashMap<String, Integer> headersMap, boolean hasTableFields) {
-        int rowNum = 1;
+        int itemFirstRowNum = 1;
         if (hasTableFields) {
-            rowNum = 2; // Для данных с таблицами начинаем с третьей строки
+            itemFirstRowNum = 2; // Для данных с таблицами начинаем с третьей строки
         }
 
-        int nextRowNum = rowNum;
+        int tableLastRow = itemFirstRowNum;
 
         for (JsonNode node : rootNode) {
-            Row row = sheet.createRow(nextRowNum); // создаем строку для каждого элемента
+            int addCellsFromTables = 0;
+            if (tableLastRow > itemFirstRowNum) {
+                itemFirstRowNum = tableLastRow;
+            }
+            Row row = sheet.createRow(itemFirstRowNum); // создаем строку для каждого элемента
             JsonNode itemsNode = node.get("items");
 
             for (Map.Entry<String, Integer> headerEntry : headersMap.entrySet()) {
                 String headerName = headerEntry.getKey();
-                int cellNum = headerEntry.getValue();
+                int cellNum = headerEntry.getValue() + addCellsFromTables;
 
                 JsonNode valueNode = findValueNodeByName(itemsNode, headerName);
 
@@ -143,18 +151,18 @@ public class JsonExcelConverter {
                 if (valueNode != null && valueNode.has("value") && valueNode.get("value").isArray()) {
                     JsonNode tableValueNode = valueNode.get("value");
                     // Передаем строку и индекс для первой строки таблицы
-                    int tableLastRow = fillTable(sheet, row, cellNum, tableValueNode, nextRowNum);
-                    if (tableLastRow > nextRowNum) {
-                        nextRowNum = tableLastRow;
+                    int lastRow = fillTable(sheet, row, cellNum, tableValueNode, itemFirstRowNum);
+                    if (lastRow > tableLastRow) {
+                        tableLastRow = lastRow;
                     }
+                    addCellsFromTables = addCellsFromTables + (tableValueNode.get(0).get("items").size() - 1);
                 } else {
                     Cell cell = row.createCell(cellNum);
                     String cellValue = extractValue(valueNode, cell);
                     cell.setCellValue(cellValue);
                 }
             }
-
-            nextRowNum++;
+            itemFirstRowNum++;
         }
 
         // Автоматически подстраиваем ширину столбцов
@@ -172,9 +180,12 @@ public class JsonExcelConverter {
         for (int i = 0; i < tableValueNode.size(); i++) {
             JsonNode tableRow = tableValueNode.get(i);
 
-            // Если это не первая строка, создаем новую строку
+            // Если это не первая строка, ищем или создаем строку
             if (i > 0) {
-                row = sheet.createRow(rowNum); // создаем новую строку для текущей записи
+                row = sheet.getRow(rowNum); // Если строка уже существует, не создаем новую
+                if (row == null) {
+                    row = sheet.createRow(rowNum); // Если строки нет, создаем новую
+                }
             }
 
             int columnNum = startColumn; // Начинаем с переданного индекса столбца
