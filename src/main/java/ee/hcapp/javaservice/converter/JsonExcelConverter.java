@@ -273,12 +273,21 @@ public class JsonExcelConverter {
                 if (joinedObjectValues.contains("\n")) {
                     setWrapTextStyle(cell);
                 }
-            } else if (valueNode.has("value")) {
+            } else if (valueNode.has("value") && !valueNode.get("value").isArray()) {
                 // Если это поле объекта, записываем его "value"
                 String value = valueNode.get("value").asText();
                 cell.setCellValue(value);
                 // Устанавливаем стиль для оборачивания текста, если есть новая строка
                 if (value.contains("\n")) {
+                    setWrapTextStyle(cell);
+                }
+            } else if (valueNode.has("value") && valueNode.get("value").isArray()) {
+                List<String> objectValues = new ArrayList<>();
+                valueNode.get("value").forEach(objValue -> objectValues.add(objValue.asText()));
+                String joinedObjectValues = String.join(", ", objectValues);
+                cell.setCellValue(joinedObjectValues);
+
+                if (joinedObjectValues.contains("\n")) {
                     setWrapTextStyle(cell);
                 }
             }
