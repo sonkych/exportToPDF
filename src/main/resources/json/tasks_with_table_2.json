@@ -1,0 +1,803 @@
+[
+  {
+    "task_id": 10424,
+    "form_id": 338,
+    "form_name": "Shipping  order",
+    "icon": "briefcase-outline",
+    "icon_color": "#6765CF",
+    "title": "DSV Road SAS IT00FE-4198  IT-FR",
+    "author_id": 74,
+    "responsible_id": 74,
+    "created_at": "2025-01-21T08:28:55.624022+02:00",
+    "last_activity": "2025-01-21T08:28:55.624022+02:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 189699,
+        "form_field_type": "ChoiceField",
+        "form_field_id": 3161,
+        "form_field_position": 1,
+        "name": "Статус",
+        "value": "🟨 New",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189700,
+        "form_field_type": "FormField",
+        "form_field_id": 3165,
+        "form_field_position": 3,
+        "name": "Компания",
+        "value": [
+          "DSV Road SAS"
+        ],
+        "linked_task_id": 9110,
+        "files": []
+      },
+      {
+        "item_id": 189701,
+        "form_field_type": "DateField",
+        "form_field_id": 3162,
+        "form_field_position": 4,
+        "name": "Дата заказа:",
+        "value": "2025-01-20T22:00:00.000Z",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189702,
+        "form_field_type": "TextField",
+        "form_field_id": 3164,
+        "form_field_position": 5,
+        "name": "Номер заказа:",
+        "value": "IT00FE-4198",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189703,
+        "form_field_type": "TextField",
+        "form_field_id": 3158,
+        "form_field_position": 6,
+        "name": "Маршрут",
+        "value": "IT-FR",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189704,
+        "form_field_type": "FormField",
+        "form_field_id": 3169,
+        "form_field_position": 9,
+        "name": "Машина",
+        "value": [
+          "024JUP"
+        ],
+        "linked_task_id": 9036,
+        "files": []
+      },
+      {
+        "item_id": 189705,
+        "form_field_type": "TextField",
+        "form_field_id": 3170,
+        "form_field_position": 11,
+        "name": "Прицеп",
+        "value": "698YNN",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189706,
+        "form_field_type": "FormField",
+        "form_field_id": 3172,
+        "form_field_position": 12,
+        "name": "Водитель",
+        "value": "Ibrogimov M",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189707,
+        "form_field_type": "TableField",
+        "form_field_id": 3140,
+        "form_field_position": 15,
+        "name": "Table",
+        "value": [
+          {
+            "row_id": 21706,
+            "position": 0,
+            "items": [
+              {
+                "item_id": 189708,
+                "form_field_type": "ChoiceField",
+                "form_field_id": 3173,
+                "form_field_position": 0,
+                "name": "Тип",
+                "value": "🟢Погрузка",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189709,
+                "form_field_type": "NumberField",
+                "form_field_id": 3141,
+                "form_field_position": 1,
+                "name": "До места  (km)",
+                "value": "",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189710,
+                "form_field_type": "DateField",
+                "form_field_id": 3142,
+                "form_field_position": 2,
+                "name": "Дата ",
+                "value": "2025-01-20T22:00:00.000Z",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189711,
+                "form_field_type": "TextField",
+                "form_field_id": 3146,
+                "form_field_position": 3,
+                "name": "Адрес",
+                "value": "FESTA LOGISTICS VIA LEVATE 62 WAREHOUSE NO 5 IT-25018 MONTICHIARI ",
+                "linked_task_id": null,
+                "files": []
+              }
+            ]
+          },
+          {
+            "row_id": 21707,
+            "position": 1,
+            "items": [
+              {
+                "item_id": 189712,
+                "form_field_type": "ChoiceField",
+                "form_field_id": 3173,
+                "form_field_position": 0,
+                "name": "Тип",
+                "value": "🔴Выгрузка",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189713,
+                "form_field_type": "NumberField",
+                "form_field_id": 3141,
+                "form_field_position": 1,
+                "name": "До места  (km)",
+                "value": "618",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189714,
+                "form_field_type": "DateField",
+                "form_field_id": 3142,
+                "form_field_position": 2,
+                "name": "Дата ",
+                "value": "2025-01-21T06:28:29.896Z",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189715,
+                "form_field_type": "TextField",
+                "form_field_id": 3146,
+                "form_field_position": 3,
+                "name": "Адрес",
+                "value": "YAMAHA/NYK / TEL.0474824078 7 RUE DES QUATRE ROUTES BAT TOTEM 1 - CELLULE 5 FR-38070 ST QUENTIN FALLAVIER ",
+                "linked_task_id": null,
+                "files": []
+              }
+            ]
+          }
+        ],
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189718,
+        "form_field_type": "NumberField",
+        "form_field_id": 3171,
+        "form_field_position": 17,
+        "name": "Доп.расход",
+        "value": "",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189716,
+        "form_field_type": "NumberField",
+        "form_field_id": 3155,
+        "form_field_position": 21,
+        "name": "Пробег (км)",
+        "value": "618.0",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189720,
+        "form_field_type": "NumberField",
+        "form_field_id": 3151,
+        "form_field_position": 22,
+        "name": "Тариф (€/км)",
+        "value": "1.10",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189717,
+        "form_field_type": "NumberField",
+        "form_field_id": 3166,
+        "form_field_position": 23,
+        "name": "Выручка",
+        "value": "679.80",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189719,
+        "form_field_type": "ChoiceField",
+        "form_field_id": 3163,
+        "form_field_position": 23,
+        "name": "Показать тариф",
+        "value": [
+          "Показать тариф"
+        ],
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189721,
+        "form_field_type": "TextField",
+        "form_field_id": 3174,
+        "form_field_position": 25,
+        "name": "Sender name:",
+        "value": null,
+        "linked_task_id": null,
+        "files": []
+      }
+    ],
+    "due_date_at": null,
+    "step_id": 47,
+    "step_name": "Active"
+  },
+  {
+    "task_id": 10405,
+    "form_id": 338,
+    "form_name": "Shipping  order",
+    "icon": "briefcase-outline",
+    "icon_color": "#6765CF",
+    "title": "DSV Road SAS IT00FE-4192  IT-IT",
+    "author_id": 74,
+    "responsible_id": 74,
+    "created_at": "2025-01-20T13:18:25.871556+02:00",
+    "last_activity": "2025-01-20T13:18:56.309944+02:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 189223,
+        "form_field_type": "ChoiceField",
+        "form_field_id": 3161,
+        "form_field_position": 1,
+        "name": "Статус",
+        "value": "🟨 New",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189224,
+        "form_field_type": "FormField",
+        "form_field_id": 3165,
+        "form_field_position": 3,
+        "name": "Компания",
+        "value": [
+          "DSV Road SAS"
+        ],
+        "linked_task_id": 9110,
+        "files": []
+      },
+      {
+        "item_id": 189225,
+        "form_field_type": "DateField",
+        "form_field_id": 3162,
+        "form_field_position": 4,
+        "name": "Дата заказа:",
+        "value": "2025-01-19T22:00:00.000Z",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189226,
+        "form_field_type": "TextField",
+        "form_field_id": 3164,
+        "form_field_position": 5,
+        "name": "Номер заказа:",
+        "value": "IT00FE-4192",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189227,
+        "form_field_type": "TextField",
+        "form_field_id": 3158,
+        "form_field_position": 6,
+        "name": "Маршрут",
+        "value": "IT-IT",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189228,
+        "form_field_type": "FormField",
+        "form_field_id": 3169,
+        "form_field_position": 9,
+        "name": "Машина",
+        "value": [
+          "024JUP"
+        ],
+        "linked_task_id": 9036,
+        "files": []
+      },
+      {
+        "item_id": 189229,
+        "form_field_type": "TextField",
+        "form_field_id": 3170,
+        "form_field_position": 11,
+        "name": "Прицеп",
+        "value": "698YNN",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189230,
+        "form_field_type": "FormField",
+        "form_field_id": 3172,
+        "form_field_position": 12,
+        "name": "Водитель",
+        "value": "Ibrogimov M",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189231,
+        "form_field_type": "TableField",
+        "form_field_id": 3140,
+        "form_field_position": 15,
+        "name": "Table",
+        "value": [
+          {
+            "row_id": 21634,
+            "position": 0,
+            "items": [
+              {
+                "item_id": 189246,
+                "form_field_type": "ChoiceField",
+                "form_field_id": 3173,
+                "form_field_position": 0,
+                "name": "Тип",
+                "value": "🟢Погрузка",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189247,
+                "form_field_type": "NumberField",
+                "form_field_id": 3141,
+                "form_field_position": 1,
+                "name": "До места  (km)",
+                "value": "",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189248,
+                "form_field_type": "DateField",
+                "form_field_id": 3142,
+                "form_field_position": 2,
+                "name": "Дата ",
+                "value": "2025-01-19T22:00:00.000Z",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189249,
+                "form_field_type": "TextField",
+                "form_field_id": 3146,
+                "form_field_position": 3,
+                "name": "Адрес",
+                "value": "KNAUF DI LOTHAR KNAUF SAS VIA LIVORNESE 20 IT-56040 CASTELLINA MARITTIMA ",
+                "linked_task_id": null,
+                "files": []
+              }
+            ]
+          },
+          {
+            "row_id": 21635,
+            "position": 1,
+            "items": [
+              {
+                "item_id": 189250,
+                "form_field_type": "ChoiceField",
+                "form_field_id": 3173,
+                "form_field_position": 0,
+                "name": "Тип",
+                "value": "🔴Выгрузка",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189251,
+                "form_field_type": "NumberField",
+                "form_field_id": 3141,
+                "form_field_position": 1,
+                "name": "До места  (km)",
+                "value": "432",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189252,
+                "form_field_type": "DateField",
+                "form_field_id": 3142,
+                "form_field_position": 2,
+                "name": "Дата",
+                "value": "2025-01-20T22:00:00.000Z",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 189253,
+                "form_field_type": "TextField",
+                "form_field_id": 3146,
+                "form_field_position": 3,
+                "name": "Адрес",
+                "value": "C4 F.LLI CARENZI SNC VIA GENOVA 7/A IT - 20096 PIOLTELLO MI ",
+                "linked_task_id": null,
+                "files": []
+              }
+            ]
+          }
+        ],
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189242,
+        "form_field_type": "NumberField",
+        "form_field_id": 3171,
+        "form_field_position": 17,
+        "name": "Доп. расход",
+        "value": "",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189240,
+        "form_field_type": "NumberField",
+        "form_field_id": 3155,
+        "form_field_position": 21,
+        "name": "Пробег (км)",
+        "value": "432.0",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189244,
+        "form_field_type": "NumberField",
+        "form_field_id": 3151,
+        "form_field_position": 22,
+        "name": "Тариф (€/км)",
+        "value": "1.10",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189243,
+        "form_field_type": "ChoiceField",
+        "form_field_id": 3163,
+        "form_field_position": 23,
+        "name": "Показать тариф",
+        "value": [
+          "Показать тариф"
+        ],
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189241,
+        "form_field_type": "NumberField",
+        "form_field_id": 3166,
+        "form_field_position": 23,
+        "name": "Выручка",
+        "value": "475.20",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 189245,
+        "form_field_type": "TextField",
+        "form_field_id": 3174,
+        "form_field_position": 25,
+        "name": "Sender name:",
+        "value": null,
+        "linked_task_id": null,
+        "files": []
+      }
+    ],
+    "due_date_at": null,
+    "step_id": 47,
+    "step_name": "Active"
+  },
+  {
+    "task_id": 10326,
+    "form_id": 338,
+    "form_name": "Shipping  order",
+    "icon": "briefcase-outline",
+    "icon_color": "#6765CF",
+    "title": "DSV Road SAS 92ITFE-0385  FR-IT",
+    "author_id": 74,
+    "responsible_id": 74,
+    "created_at": "2025-01-16T16:39:05.121427+02:00",
+    "last_activity": "2025-01-17T12:33:35.903329+02:00",
+    "is_finished": false,
+    "items": [
+      {
+        "item_id": 187089,
+        "form_field_type": "ChoiceField",
+        "form_field_id": 3161,
+        "form_field_position": 1,
+        "name": "Статус",
+        "value": "🟨 New",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187090,
+        "form_field_type": "FormField",
+        "form_field_id": 3165,
+        "form_field_position": 3,
+        "name": "Компания",
+        "value": [
+          "DSV Road SAS"
+        ],
+        "linked_task_id": 9110,
+        "files": []
+      },
+      {
+        "item_id": 187091,
+        "form_field_type": "DateField",
+        "form_field_id": 3162,
+        "form_field_position": 4,
+        "name": "Дата заказа:",
+        "value": "2025-01-16T22:00:00.000Z",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187092,
+        "form_field_type": "TextField",
+        "form_field_id": 3164,
+        "form_field_position": 5,
+        "name": "Номер заказа:",
+        "value": "92ITFE-0385",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187093,
+        "form_field_type": "TextField",
+        "form_field_id": 3158,
+        "form_field_position": 6,
+        "name": "Маршрут",
+        "value": "FR-IT",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187094,
+        "form_field_type": "FormField",
+        "form_field_id": 3169,
+        "form_field_position": 9,
+        "name": "Машина",
+        "value": [
+          "024JUP"
+        ],
+        "linked_task_id": 9036,
+        "files": []
+      },
+      {
+        "item_id": 187095,
+        "form_field_type": "TextField",
+        "form_field_id": 3170,
+        "form_field_position": 11,
+        "name": "Прицеп",
+        "value": "698YNN",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187096,
+        "form_field_type": "FormField",
+        "form_field_id": 3172,
+        "form_field_position": 12,
+        "name": "Водитель",
+        "value": "Ibrogimov M",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187097,
+        "form_field_type": "TableField",
+        "form_field_id": 3140,
+        "form_field_position": 15,
+        "name": "Table",
+        "value": [
+          {
+            "row_id": 21482,
+            "position": 0,
+            "items": [
+              {
+                "item_id": 188100,
+                "form_field_type": "ChoiceField",
+                "form_field_id": 3173,
+                "form_field_position": 0,
+                "name": "Тип",
+                "value": "🟢Погрузка",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 188101,
+                "form_field_type": "NumberField",
+                "form_field_id": 3141,
+                "form_field_position": 1,
+                "name": "До места  (km)",
+                "value": "",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 188102,
+                "form_field_type": "DateField",
+                "form_field_id": 3142,
+                "form_field_position": 2,
+                "name": "Дата ",
+                "value": "2025-01-16T22:00:00.000Z",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 188103,
+                "form_field_type": "TextField",
+                "form_field_id": 3146,
+                "form_field_position": 3,
+                "name": "Адрес",
+                "value": "WEYLCHEM LAMOTTE BP1 SITE DE LAMOTTE - RUE DU FLOTTAGE FR-60350 TROSLY-BREUIL",
+                "linked_task_id": null,
+                "files": []
+              }
+            ]
+          },
+          {
+            "row_id": 21483,
+            "position": 1,
+            "items": [
+              {
+                "item_id": 188104,
+                "form_field_type": "ChoiceField",
+                "form_field_id": 3173,
+                "form_field_position": 0,
+                "name": "Тип",
+                "value": "🔴Выгрузка",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 188105,
+                "form_field_type": "NumberField",
+                "form_field_id": 3141,
+                "form_field_position": 1,
+                "name": "До места  (km)",
+                "value": "1406",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 188106,
+                "form_field_type": "DateField",
+                "form_field_id": 3142,
+                "form_field_position": 2,
+                "name": "Дата ",
+                "value": "2025-01-19T22:00:00.000Z",
+                "linked_task_id": null,
+                "files": []
+              },
+              {
+                "item_id": 188107,
+                "form_field_type": "TextField",
+                "form_field_id": 3146,
+                "form_field_position": 3,
+                "name": "Адрес",
+                "value": "TOSCOLAPI SRL VIA CURZIO MALAPARTE 3  IT-56029 SANTA CROCE SULL'ARN ",
+                "linked_task_id": null,
+                "files": []
+              }
+            ]
+          }
+        ],
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187108,
+        "form_field_type": "NumberField",
+        "form_field_id": 3171,
+        "form_field_position": 17,
+        "name": "Доп. расход",
+        "value": "",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187106,
+        "form_field_type": "NumberField",
+        "form_field_id": 3155,
+        "form_field_position": 21,
+        "name": "Пробег (км)",
+        "value": "1406.0",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187110,
+        "form_field_type": "NumberField",
+        "form_field_id": 3151,
+        "form_field_position": 22,
+        "name": "Тариф (€/км)",
+        "value": "1.10",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187109,
+        "form_field_type": "ChoiceField",
+        "form_field_id": 3163,
+        "form_field_position": 23,
+        "name": "Показать тариф",
+        "value": [
+          "Показать тариф"
+        ],
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187107,
+        "form_field_type": "NumberField",
+        "form_field_id": 3166,
+        "form_field_position": 23,
+        "name": "Выручка",
+        "value": "1546.60",
+        "linked_task_id": null,
+        "files": []
+      },
+      {
+        "item_id": 187111,
+        "form_field_type": "TextField",
+        "form_field_id": 3174,
+        "form_field_position": 25,
+        "name": "Sender name:",
+        "value": null,
+        "linked_task_id": null,
+        "files": []
+      }
+    ],
+    "due_date_at": null,
+    "step_id": 47,
+    "step_name": "Active"
+  }
+]

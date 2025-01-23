@@ -4,11 +4,14 @@ import com.google.common.net.HttpHeaders;
 import ee.hcapp.javaservice.converter.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
 
 @RestController
 @RequestMapping("/api/converter")
@@ -125,6 +128,75 @@ public class ConverterResource {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
         }
     }
+
+//    @PostMapping("/json2excel")
+//    public ResponseEntity<?> convertJsonToExcel(@RequestParam("file") MultipartFile file1) {
+//        LOGGER.info("Received request to convert JSON to Excel.");
+//
+//        ClassPathResource resource = new ClassPathResource("json/tasks_with_table_2.json");
+//
+//        try (InputStream inputStream = resource.getInputStream()) {
+//            byte[] fileContent = inputStream.readAllBytes();
+//
+//            MultipartFile file = new MultipartFile() {
+//                @Override
+//                public String getName() {
+//                    return resource.getFilename();
+//                }
+//
+//                @Override
+//                public String getOriginalFilename() {
+//                    return resource.getFilename();
+//                }
+//
+//                @Override
+//                public String getContentType() {
+//                    return MediaType.APPLICATION_JSON_VALUE;
+//                }
+//
+//                @Override
+//                public boolean isEmpty() {
+//                    return fileContent.length == 0;
+//                }
+//
+//                @Override
+//                public long getSize() {
+//                    return fileContent.length;
+//                }
+//
+//                @Override
+//                public byte[] getBytes() {
+//                    return fileContent;
+//                }
+//
+//                @Override
+//                public InputStream getInputStream() {
+//                    return new ByteArrayInputStream(fileContent);
+//                }
+//
+//                @Override
+//                public void transferTo(File dest) throws IOException, IllegalStateException {
+//                    try (FileOutputStream out = new FileOutputStream(dest)) {
+//                        out.write(fileContent);
+//                    }
+//                }
+//            };
+//
+//            byte[] excelBytes = jsonExcelConverter.convert(file);
+//            if (excelBytes == null) {
+//                LOGGER.error("Conversion failed with null response.");
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
+//            }
+//            LOGGER.info("Successfully converted JSON file to Excel.");
+//            return ResponseEntity.ok()
+//                    .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+//                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"converted.xlsx\"")
+//                    .body(excelBytes);
+//        } catch (Exception e) {
+//            LOGGER.error("Error processing file for conversion", e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file.");
+//        }
+//    }
 
     @PostMapping("/json2csv")
     public ResponseEntity<?> convertJsonToCsv(@RequestParam("file") MultipartFile file) {

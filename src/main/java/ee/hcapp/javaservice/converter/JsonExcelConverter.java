@@ -135,7 +135,7 @@ public class JsonExcelConverter {
                 JsonNode valueNode = findValueNodeByName(itemsNode, headerName);
 
                 // Если это таблица, заполняем её
-                if (valueNode != null && valueNode.has("value") && valueNode.get("value").isArray()) {
+                if (valueNode != null && valueNode.has("value") && valueNode.get("value").isArray() && valueNode.get("form_field_type").asText().equals("TableField")) {
                     JsonNode tableValueNode = valueNode.get("value");
                     // Передаем строку и индекс для первой строки таблицы
                     int lastRow = fillTable(sheet, row, cellNum, tableValueNode, itemFirstRowNum);
