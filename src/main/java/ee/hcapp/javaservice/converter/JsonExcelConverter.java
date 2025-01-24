@@ -18,7 +18,7 @@ import java.util.*;
 @Service
 public class JsonExcelConverter {
 
-    public byte[] convert(MultipartFile file) throws IOException {
+    public byte[] convert(MultipartFile file, String timezone) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(file.getInputStream());
 
@@ -28,7 +28,7 @@ public class JsonExcelConverter {
             LinkedHashMap<String, Integer> headersMap = createHeadersMap(rootNode);
             boolean hasTableFields = createHeadersRow(sheet, rootNode);
 
-            fillData(sheet, rootNode, headersMap, hasTableFields);
+            fillData(sheet, rootNode, headersMap, hasTableFields, timezone);
 
             workbook.write(out);
             return out.toByteArray();
@@ -112,7 +112,7 @@ public class JsonExcelConverter {
         return headersMap;
     }
 
-    private void fillData(Sheet sheet, JsonNode rootNode, LinkedHashMap<String, Integer> headersMap, boolean hasTableFields) {
+    private void fillData(Sheet sheet, JsonNode rootNode, LinkedHashMap<String, Integer> headersMap, boolean hasTableFields, String timezone) {
         int itemFirstRowNum = 1;
         if (hasTableFields) {
             itemFirstRowNum = 2; // Для данных с таблицами начинаем с третьей строки
@@ -138,14 +138,14 @@ public class JsonExcelConverter {
                 if (valueNode != null && valueNode.has("value") && valueNode.get("value").isArray() && valueNode.get("form_field_type").asText().equals("TableField")) {
                     JsonNode tableValueNode = valueNode.get("value");
                     // Передаем строку и индекс для первой строки таблицы
-                    int lastRow = fillTable(sheet, row, cellNum, tableValueNode, itemFirstRowNum);
+                    int lastRow = fillTable(sheet, row, cellNum, tableValueNode, itemFirstRowNum, timezone);
                     if (lastRow > tableLastRow) {
                         tableLastRow = lastRow;
                     }
                     addCellsFromTables = addCellsFromTables + (tableValueNode.get(0).get("items").size() - 1);
                 } else {
                     Cell cell = row.createCell(cellNum);
-                    writeValueToCell(valueNode, cell);
+                    writeValueToCell(valueNode, cell, timezone);
                 }
             }
             itemFirstRowNum++;
@@ -159,7 +159,7 @@ public class JsonExcelConverter {
 
 
 
-    private int fillTable(Sheet sheet, Row row, int startColumn, JsonNode tableValueNode, int startRow) {
+    private int fillTable(Sheet sheet, Row row, int startColumn, JsonNode tableValueNode, int startRow, String timezone) {
         int rowNum = startRow; // Начинаем с текущего индекса строки
 
         // Проходим по каждой строке в таблице
@@ -179,7 +179,7 @@ public class JsonExcelConverter {
             for (JsonNode item : tableRow.get("items")) {
                 // Записываем значение в текущую ячейку
                 Cell cell = row.createCell(columnNum);
-                writeValueToCell(item, cell);
+                writeValueToCell(item, cell, timezone);
                 columnNum++; // Переходим к следующему столбцу
             }
 
@@ -192,7 +192,7 @@ public class JsonExcelConverter {
         return rowNum;
     }
 
-    private void writeValueToCell(JsonNode valueNode, Cell cell) {
+    private void writeValueToCell(JsonNode valueNode, Cell cell, String timezone) {
         if (valueNode == null) {
             return; // Если значение отсутствует, ничего не делаем
         }
@@ -202,7 +202,7 @@ public class JsonExcelConverter {
             String fieldType = valueNode.get("form_field_type").asText();
 
             // Обработка типа "NumberField" (число)
-            if ("NumberField".equals(fieldType)) {
+            if ("NumberField".equals(fieldType) || "Number".equals(fieldType)) {
                 String value = valueNode.get("value").asText().replace(",", "."); // Заменяем запятую на точку для чисел
                 try {
                     // Преобразуем строку в число и записываем
@@ -217,7 +217,7 @@ public class JsonExcelConverter {
             }
 
             // Обработка типов "DateField" и "DueDateField" (дата)
-            if ("DateField".equals(fieldType) || "DueDateField".equals(fieldType)) {
+            if ("DateField".equals(fieldType) || "DueDateField".equals(fieldType) || "Date".equals(fieldType) || "DueDate".equals(fieldType)) {
                 try {
                     String dateValue = valueNode.get("value").asText();
 
@@ -228,18 +228,10 @@ public class JsonExcelConverter {
                     Date date = utcFormat.parse(dateValue); // Парсим строку в объект Date
 
                     // Преобразуем в Эстонское время
-                    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Tallinn"));
-                    calendar.setTime(date); // Устанавливаем дату в Эстонское время
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                    dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));  // Устанавливаем таймзону  // Применяем формат для даты
 
-                    // Устанавливаем правильный формат даты для Excel (день.месяц.год)
-                    CellStyle dateStyle = cell.getSheet().getWorkbook().createCellStyle();
-                    short dateFormat = cell.getSheet().getWorkbook().createDataFormat().getFormat("dd.MM.yyyy");
-                    dateStyle.setDataFormat(dateFormat);
-
-                    // Записываем дату в ячейку в Эстонском времени с заданным форматом
-                    cell.setCellValue(calendar.getTime());
-                    cell.setCellStyle(dateStyle);  // Применяем формат для даты
-
+                    cell.setCellValue(dateFormat.format(date));
                 } catch (ParseException e) {
                     // Если не удалось распарсить как дату, записываем как строку
                     cell.setCellValue(valueNode.asText());

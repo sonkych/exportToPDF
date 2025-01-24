@@ -13,14 +13,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
 
 @Service
 public class JsonPdfConverter {
 
-    public byte[] convert(MultipartFile file) throws IOException, DocumentException {
+    public byte[] convert(MultipartFile file, String timeZone) throws IOException, DocumentException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(file.getInputStream());
 
@@ -35,7 +36,7 @@ public class JsonPdfConverter {
 
         addTableHeaders(table, headersMap);
 
-        fillData(table, rootNode, headersMap);
+        fillData(table, rootNode, headersMap, timeZone);
 
         document.add(table);
         document.close();
@@ -66,7 +67,7 @@ public class JsonPdfConverter {
         return headersMap;
     }
 
-    private void fillData(PdfPTable table, JsonNode rootNode, LinkedHashMap<String, Integer> headersMap) throws DocumentException, IOException {
+    private void fillData(PdfPTable table, JsonNode rootNode, LinkedHashMap<String, Integer> headersMap, String timeZone) throws DocumentException, IOException {
         Font font = getFontForCyrillic();
 
         for (JsonNode node : rootNode) {
@@ -78,7 +79,17 @@ public class JsonPdfConverter {
             for (JsonNode item : itemsNode) {
                 String headerName = item.get("name").asText();
                 JsonNode valueNode = item.get("value");
+
                 String cellValue = extractValue(valueNode);
+
+                if ("DateField".equals(item.get("form_field_type").asText()) ||
+                    "DueDateField".equals(item.get("form_field_type").asText()) ||
+                    "DueDate".equals(item.get("form_field_type").asText()) ||
+                    "Date".equals(item.get("form_field_type").asText())) {
+
+                    cellValue = formatDate(cellValue, timeZone);
+                }
+
                 rowData.put(headerName, cellValue);
             }
 
@@ -87,6 +98,24 @@ public class JsonPdfConverter {
                 cell.setPhrase(new Phrase(rowData.get(header), font));
                 table.addCell(cell);
             });
+        }
+    }
+
+    private String formatDate(String dateValue, String timeZone) {
+        try {
+            // Преобразуем строку с датой в формат Date
+            SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            utcFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Указываем UTC как исходный часовой пояс
+
+            Date date = utcFormat.parse(dateValue); // Парсим строку в объект Date
+
+            // Преобразуем в указанную таймзону
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            dateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));  // Устанавливаем таймзону
+
+            return dateFormat.format(date);  // Возвращаем отформатированную дату в нужной таймзоне
+        } catch (ParseException e) {
+            return dateValue;  // Если не удалось распарсить дату, возвращаем строку как есть
         }
     }
 

@@ -104,7 +104,8 @@ public class ConverterResource {
     }
 
     @PostMapping("/json2excel")
-    public ResponseEntity<?> convertJsonToExcel(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> convertJsonToExcel(@RequestParam("file") MultipartFile file,
+                                                @RequestParam("timezone") String timeZone) {
         LOGGER.info("Received request to convert JSON to Excel.");
 
         if (file.isEmpty()) {
@@ -113,7 +114,7 @@ public class ConverterResource {
         }
 
         try {
-            byte[] excelBytes = jsonExcelConverter.convert(file);
+            byte[] excelBytes = jsonExcelConverter.convert(file, timeZone);
             if (excelBytes == null) {
                 LOGGER.error("Conversion failed with null response.");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
@@ -199,7 +200,8 @@ public class ConverterResource {
 //    }
 
     @PostMapping("/json2csv")
-    public ResponseEntity<?> convertJsonToCsv(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> convertJsonToCsv(@RequestParam("file") MultipartFile file,
+                                              @RequestParam("timezone") String timeZone) {
         LOGGER.info("Received request to convert JSON to CSV.");
 
         if (file.isEmpty()) {
@@ -225,7 +227,8 @@ public class ConverterResource {
     }
 
     @PostMapping("/json2pdf")
-    public ResponseEntity<?> convertJsonToPdf(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> convertJsonToPdf(@RequestParam("file") MultipartFile file,
+                                              @RequestParam("timezone") String timeZone) {
         LOGGER.info("Received request to convert JSON to PDF updated.");
 
         if (file.isEmpty()) {
@@ -234,7 +237,7 @@ public class ConverterResource {
         }
 
         try {
-            byte[] pdfBytes = jsonPdfConverter.convert(file);
+            byte[] pdfBytes = jsonPdfConverter.convert(file, timeZone);
             if (pdfBytes == null) {
                 LOGGER.error("Conversion failed with null response.");
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Conversion failed.");
