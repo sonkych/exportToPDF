@@ -45,6 +45,7 @@ public class JsonExcelConverter {
         boolean hasTableFields = false;
         int rowNum = 0; // Начинаем с первой строки
         Row headerRow = sheet.createRow(rowNum++); // Первая строка для заголовков
+        setDefaultRowHeight(headerRow);
 
         int cellIndex = 0; // Индекс для ячеек
         Row subHeaderRow = null; // Строка для подзаголовков (будет создана один раз)
@@ -82,6 +83,7 @@ public class JsonExcelConverter {
                     // Если строка подзаголовков ещё не была создана, создаём её
                     if (subHeaderRow == null) {
                         subHeaderRow = sheet.createRow(1); // Подзаголовки идут во второй строке
+                        setDefaultRowHeight(subHeaderRow);
                     }
 
                     // Рисуем подзаголовки для вложенной таблицы в уже существующую строку
@@ -151,13 +153,17 @@ public class JsonExcelConverter {
         }
 
         int tableLastRow = itemFirstRowNum;
+        int taskIndex = 0;
+        Map<String, CellStyle> fillStyleCache = new HashMap<>();
 
         for (JsonNode node : rootNode) {
             int addCellsFromTables = 0;
             if (tableLastRow > itemFirstRowNum) {
                 itemFirstRowNum = tableLastRow;
             }
+            int taskStartRow = itemFirstRowNum;
             Row row = sheet.createRow(itemFirstRowNum); // создаем строку для каждого элемента
+            setDefaultRowHeight(row);
             JsonNode itemsNode = node.get("items");
 
             for (Map.Entry<
@@ -202,6 +208,25 @@ public class JsonExcelConverter {
                     writeValueToCell(valueNode, cell, timezone);
                 }
             }
+            int taskEndRow = Math.max(tableLastRow, taskStartRow);
+            IndexedColors fillColor = (taskIndex % 2 == 0)
+                ? IndexedColors.WHITE
+                : IndexedColors.GREY_25_PERCENT;
+            for (
+                int rowIndex = taskStartRow;
+                rowIndex <= taskEndRow;
+                rowIndex++
+            ) {
+                Row taskRow = sheet.getRow(rowIndex);
+                if (taskRow == null) {
+                    taskRow = sheet.createRow(rowIndex);
+                    setDefaultRowHeight(taskRow);
+                } else {
+                    setDefaultRowHeight(taskRow);
+                }
+                applyRowFill(taskRow, fillColor, fillStyleCache);
+            }
+            taskIndex++;
             itemFirstRowNum++;
         }
 
@@ -230,6 +255,9 @@ public class JsonExcelConverter {
                 row = sheet.getRow(rowNum); // Если строка уже существует, не создаем новую
                 if (row == null) {
                     row = sheet.createRow(rowNum); // Если строки нет, создаем новую
+                    setDefaultRowHeight(row);
+                } else {
+                    setDefaultRowHeight(row);
                 }
             }
 
@@ -391,6 +419,33 @@ public class JsonExcelConverter {
         CellStyle cellStyle = cell.getSheet().getWorkbook().createCellStyle();
         cellStyle.setWrapText(true);
         cell.setCellStyle(cellStyle);
+    }
+
+    private void setDefaultRowHeight(Row row) {
+        row.setHeightInPoints(row.getSheet().getDefaultRowHeightInPoints());
+    }
+
+    private void applyRowFill(
+        Row row,
+        IndexedColors fillColor,
+        Map<String, CellStyle> styleCache
+    ) {
+        Workbook workbook = row.getSheet().getWorkbook();
+        short colorIndex = fillColor.getIndex();
+
+        for (Cell cell : row) {
+            CellStyle baseStyle = cell.getCellStyle();
+            String cacheKey = baseStyle.getIndex() + ":" + colorIndex;
+            CellStyle fillStyle = styleCache.get(cacheKey);
+            if (fillStyle == null) {
+                fillStyle = workbook.createCellStyle();
+                fillStyle.cloneStyleFrom(baseStyle);
+                fillStyle.setFillForegroundColor(colorIndex);
+                fillStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                styleCache.put(cacheKey, fillStyle);
+            }
+            cell.setCellStyle(fillStyle);
+        }
     }
 
     private void setLinkCell(Cell cell, String url) {
