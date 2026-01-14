@@ -155,6 +155,7 @@ public class JsonExcelConverter {
         int tableLastRow = itemFirstRowNum;
         int taskIndex = 0;
         Map<String, CellStyle> fillStyleCache = new HashMap<>();
+        int maxColumns = getMaxHeaderColumns(sheet, hasTableFields);
 
         for (JsonNode node : rootNode) {
             int addCellsFromTables = 0;
@@ -224,7 +225,7 @@ public class JsonExcelConverter {
                 } else {
                     setDefaultRowHeight(taskRow);
                 }
-                applyRowFill(taskRow, fillColor, fillStyleCache);
+                applyRowFill(taskRow, fillColor, fillStyleCache, maxColumns);
             }
             taskIndex++;
             itemFirstRowNum++;
@@ -425,15 +426,42 @@ public class JsonExcelConverter {
         row.setHeightInPoints(row.getSheet().getDefaultRowHeightInPoints());
     }
 
+    private int getMaxHeaderColumns(Sheet sheet, boolean hasTableFields) {
+        int maxColumns = 0;
+        Row headerRow = sheet.getRow(0);
+        if (headerRow != null) {
+            maxColumns = Math.max(maxColumns, headerRow.getLastCellNum());
+        }
+        if (hasTableFields) {
+            Row subHeaderRow = sheet.getRow(1);
+            if (subHeaderRow != null) {
+                maxColumns = Math.max(
+                    maxColumns,
+                    subHeaderRow.getLastCellNum()
+                );
+            }
+        }
+        return Math.max(maxColumns, 0);
+    }
+
     private void applyRowFill(
         Row row,
         IndexedColors fillColor,
-        Map<String, CellStyle> styleCache
+        Map<String, CellStyle> styleCache,
+        int maxColumns
     ) {
         Workbook workbook = row.getSheet().getWorkbook();
         short colorIndex = fillColor.getIndex();
 
-        for (Cell cell : row) {
+        int lastColumn = maxColumns > 0 ? maxColumns : row.getLastCellNum();
+        if (lastColumn < 0) {
+            return;
+        }
+        for (int columnIndex = 0; columnIndex < lastColumn; columnIndex++) {
+            Cell cell = row.getCell(columnIndex);
+            if (cell == null) {
+                cell = row.createCell(columnIndex);
+            }
             CellStyle baseStyle = cell.getCellStyle();
             String cacheKey = baseStyle.getIndex() + ":" + colorIndex;
             CellStyle fillStyle = styleCache.get(cacheKey);
