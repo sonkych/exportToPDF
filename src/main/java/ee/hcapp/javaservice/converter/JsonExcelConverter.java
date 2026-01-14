@@ -50,33 +50,39 @@ public class JsonExcelConverter {
         // Перебираем все итемы первого элемента
         for (JsonNode item : itemsNode) {
             String header = item.get("name").asText();
-            boolean isTableField = item.has("form_field_type") && "TableField".equals(item.get("form_field_type").asText());
+            boolean isTableField = isTableField(item);
 
             // Если это TableField, то обрабатываем его как особый случай
             if (isTableField) {
-                hasTableFields = true;
                 // Получаем количество колонок в таблице
                 JsonNode valueNode = item.get("value");
                 int columnCount = getTableColumnCount(valueNode);
 
-                // Объединяем ячейки для главного заголовка на первой строке
-                sheet.addMergedRegion(new CellRangeAddress(0, 0, cellIndex, cellIndex + columnCount - 1));
-                Cell cell = headerRow.createCell(cellIndex);
-                cell.setCellValue(header); // Заголовок для TableField
-                cellIndex += columnCount; // Пропускаем несколько колонок
+                if (columnCount > 0) {
+                    hasTableFields = true;
+                    // Объединяем ячейки для главного заголовка на первой строке
+                    sheet.addMergedRegion(new CellRangeAddress(0, 0, cellIndex, cellIndex + columnCount - 1));
+                    Cell cell = headerRow.createCell(cellIndex);
+                    cell.setCellValue(header); // Заголовок для TableField
+                    cellIndex += columnCount; // Пропускаем несколько колонок
 
-                // Если строка подзаголовков ещё не была создана, создаём её
-                if (subHeaderRow == null) {
-                    subHeaderRow = sheet.createRow(1); // Подзаголовки идут во второй строке
-                }
+                    // Если строка подзаголовков ещё не была создана, создаём её
+                    if (subHeaderRow == null) {
+                        subHeaderRow = sheet.createRow(1); // Подзаголовки идут во второй строке
+                    }
 
-                // Рисуем подзаголовки для вложенной таблицы в уже существующую строку
-                List<String> subHeaders = getTableHeaders(valueNode); // Получаем заголовки для вложенной таблицы
+                    // Рисуем подзаголовки для вложенной таблицы в уже существующую строку
+                    List<String> subHeaders = getTableHeaders(valueNode); // Получаем заголовки для вложенной таблицы
 
-                // Пропускаем ячейки, чтобы они выровнялись под главным заголовком
-                int subHeaderCellIndex = cellIndex - columnCount;
-                for (int i = 0; i < subHeaders.size(); i++) {
-                    subHeaderRow.createCell(subHeaderCellIndex + i).setCellValue(subHeaders.get(i));
+                    // Пропускаем ячейки, чтобы они выровнялись под главным заголовком
+                    int subHeaderCellIndex = cellIndex - columnCount;
+                    for (int i = 0; i < subHeaders.size(); i++) {
+                        subHeaderRow.createCell(subHeaderCellIndex + i).setCellValue(subHeaders.get(i));
+                    }
+                } else {
+                    // Нет строк таблицы — рисуем как обычный заголовок
+                    Cell cell = headerRow.createCell(cellIndex++);
+                    cell.setCellValue(header);
                 }
             } else {
                 // Для обычных элементов просто рисуем заголовок
@@ -93,8 +99,10 @@ public class JsonExcelConverter {
         List<String> subHeaders = new ArrayList<>();
         if (tableValueNode != null && tableValueNode.isArray() && tableValueNode.size() > 0) {
             JsonNode firstRow = tableValueNode.get(0);
-            for (JsonNode item : firstRow.get("items")) {
-                subHeaders.add(item.get("name").asText());
+            if (firstRow.has("items") && firstRow.get("items").isArray()) {
+                for (JsonNode item : firstRow.get("items")) {
+                    subHeaders.add(item.get("name").asText());
+                }
             }
         }
         return subHeaders;
@@ -135,14 +143,20 @@ public class JsonExcelConverter {
                 JsonNode valueNode = findValueNodeByName(itemsNode, headerName);
 
                 // Если это таблица, заполняем её
-                if (valueNode != null && valueNode.has("value") && valueNode.get("value").isArray() && valueNode.get("form_field_type").asText().equals("TableField")) {
+                if (valueNode != null && valueNode.has("value") && valueNode.get("value").isArray() && isTableField(valueNode)) {
                     JsonNode tableValueNode = valueNode.get("value");
+                    if (tableValueNode.size() == 0) {
+                        continue;
+                    }
                     // Передаем строку и индекс для первой строки таблицы
                     int lastRow = fillTable(sheet, row, cellNum, tableValueNode, itemFirstRowNum, timezone);
                     if (lastRow > tableLastRow) {
                         tableLastRow = lastRow;
                     }
-                    addCellsFromTables = addCellsFromTables + (tableValueNode.get(0).get("items").size() - 1);
+                    JsonNode firstRowItems = tableValueNode.get(0).get("items");
+                    if (firstRowItems != null && firstRowItems.isArray()) {
+                        addCellsFromTables = addCellsFromTables + (firstRowItems.size() - 1);
+                    }
                 } else {
                     Cell cell = row.createCell(cellNum);
                     writeValueToCell(valueNode, cell, timezone);
@@ -336,9 +350,11 @@ public class JsonExcelConverter {
 
     private int getTableColumnCount(JsonNode tableValueNode) {
         // Предположим, что все ряды таблицы имеют одинаковое количество колонок
-        if (tableValueNode.isArray() && tableValueNode.size() > 0) {
+        if (tableValueNode != null && tableValueNode.isArray() && tableValueNode.size() > 0) {
             JsonNode firstRow = tableValueNode.get(0);
-            return firstRow.get("items").size();
+            if (firstRow.has("items") && firstRow.get("items").isArray()) {
+                return firstRow.get("items").size();
+            }
         }
         return 0; // Если таблица пустая или нет данных
     }
@@ -349,7 +365,7 @@ public class JsonExcelConverter {
             // Проверяем, есть ли нужный name
             if (item.has("name") && item.get("name").asText().equals(name)) {
                 // Если это TableField, возвращаем всю структуру
-                if (item.has("form_field_type") && "TableField".equals(item.get("form_field_type").asText())) {
+                if (isTableField(item)) {
                     return item; // Возвращаем всю структуру таблицы (вместо только value)
                 }
                 // Для обычных элементов возвращаем значение
@@ -357,5 +373,13 @@ public class JsonExcelConverter {
             }
         }
         return null;
+    }
+
+    private boolean isTableField(JsonNode item) {
+        if (item == null || !item.has("form_field_type")) {
+            return false;
+        }
+        String fieldType = item.get("form_field_type").asText();
+        return "TableField".equals(fieldType) || "Table".equals(fieldType);
     }
 }
