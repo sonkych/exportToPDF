@@ -152,17 +152,14 @@ public class JsonExcelConverter {
             itemFirstRowNum = 2; // Для данных с таблицами начинаем с третьей строки
         }
 
-        int tableLastRow = itemFirstRowNum;
         int taskIndex = 0;
         Map<String, CellStyle> fillStyleCache = new HashMap<>();
         int maxColumns = getMaxHeaderColumns(sheet, hasTableFields);
 
         for (JsonNode node : rootNode) {
             int addCellsFromTables = 0;
-            if (tableLastRow > itemFirstRowNum) {
-                itemFirstRowNum = tableLastRow;
-            }
             int taskStartRow = itemFirstRowNum;
+            int taskEndRow = itemFirstRowNum;
             Row row = sheet.createRow(itemFirstRowNum); // создаем строку для каждого элемента
             setDefaultRowHeight(row);
             JsonNode itemsNode = node.get("items");
@@ -196,9 +193,7 @@ public class JsonExcelConverter {
                         itemFirstRowNum,
                         timezone
                     );
-                    if (lastRow > tableLastRow) {
-                        tableLastRow = lastRow;
-                    }
+                    taskEndRow = Math.max(taskEndRow, lastRow);
                     JsonNode firstRowItems = tableValueNode.get(0).get("items");
                     if (firstRowItems != null && firstRowItems.isArray()) {
                         addCellsFromTables =
@@ -209,7 +204,6 @@ public class JsonExcelConverter {
                     writeValueToCell(valueNode, cell, timezone);
                 }
             }
-            int taskEndRow = Math.max(tableLastRow, taskStartRow);
             IndexedColors fillColor = (taskIndex % 2 == 0)
                 ? IndexedColors.WHITE
                 : IndexedColors.GREY_25_PERCENT;
@@ -228,7 +222,7 @@ public class JsonExcelConverter {
                 applyRowFill(taskRow, fillColor, fillStyleCache, maxColumns);
             }
             taskIndex++;
-            itemFirstRowNum++;
+            itemFirstRowNum = taskEndRow + 1;
         }
 
         // Автоматически подстраиваем ширину столбцов
