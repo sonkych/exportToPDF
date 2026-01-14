@@ -2,30 +2,35 @@ package ee.hcapp.javaservice.converter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class JsonExcelConverter {
 
-    public byte[] convert(MultipartFile file, String timezone) throws IOException {
+    public byte[] convert(MultipartFile file, String timezone)
+        throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(file.getInputStream());
 
-        try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+        try (
+            Workbook workbook = new XSSFWorkbook();
+            ByteArrayOutputStream out = new ByteArrayOutputStream()
+        ) {
             Sheet sheet = workbook.createSheet("Data");
 
-            LinkedHashMap<String, Integer> headersMap = createHeadersMap(rootNode);
+            LinkedHashMap<String, Integer> headersMap = createHeadersMap(
+                rootNode
+            );
             boolean hasTableFields = createHeadersRow(sheet, rootNode);
 
             fillData(sheet, rootNode, headersMap, hasTableFields, timezone);
@@ -61,7 +66,14 @@ public class JsonExcelConverter {
                 if (columnCount > 0) {
                     hasTableFields = true;
                     // Объединяем ячейки для главного заголовка на первой строке
-                    sheet.addMergedRegion(new CellRangeAddress(0, 0, cellIndex, cellIndex + columnCount - 1));
+                    sheet.addMergedRegion(
+                        new CellRangeAddress(
+                            0,
+                            0,
+                            cellIndex,
+                            cellIndex + columnCount - 1
+                        )
+                    );
                     Cell cell = headerRow.createCell(cellIndex);
                     cell.setCellValue(header); // Заголовок для TableField
                     cellIndex += columnCount; // Пропускаем несколько колонок
@@ -77,7 +89,9 @@ public class JsonExcelConverter {
                     // Пропускаем ячейки, чтобы они выровнялись под главным заголовком
                     int subHeaderCellIndex = cellIndex - columnCount;
                     for (int i = 0; i < subHeaders.size(); i++) {
-                        subHeaderRow.createCell(subHeaderCellIndex + i).setCellValue(subHeaders.get(i));
+                        subHeaderRow
+                            .createCell(subHeaderCellIndex + i)
+                            .setCellValue(subHeaders.get(i));
                     }
                 } else {
                     // Нет строк таблицы — рисуем как обычный заголовок
@@ -94,10 +108,13 @@ public class JsonExcelConverter {
         return hasTableFields;
     }
 
-
     private List<String> getTableHeaders(JsonNode tableValueNode) {
         List<String> subHeaders = new ArrayList<>();
-        if (tableValueNode != null && tableValueNode.isArray() && tableValueNode.size() > 0) {
+        if (
+            tableValueNode != null &&
+            tableValueNode.isArray() &&
+            tableValueNode.size() > 0
+        ) {
             JsonNode firstRow = tableValueNode.get(0);
             if (firstRow.has("items") && firstRow.get("items").isArray()) {
                 for (JsonNode item : firstRow.get("items")) {
@@ -120,7 +137,13 @@ public class JsonExcelConverter {
         return headersMap;
     }
 
-    private void fillData(Sheet sheet, JsonNode rootNode, LinkedHashMap<String, Integer> headersMap, boolean hasTableFields, String timezone) {
+    private void fillData(
+        Sheet sheet,
+        JsonNode rootNode,
+        LinkedHashMap<String, Integer> headersMap,
+        boolean hasTableFields,
+        String timezone
+    ) {
         int itemFirstRowNum = 1;
         if (hasTableFields) {
             itemFirstRowNum = 2; // Для данных с таблицами начинаем с третьей строки
@@ -136,26 +159,42 @@ public class JsonExcelConverter {
             Row row = sheet.createRow(itemFirstRowNum); // создаем строку для каждого элемента
             JsonNode itemsNode = node.get("items");
 
-            for (Map.Entry<String, Integer> headerEntry : headersMap.entrySet()) {
+            for (Map.Entry<
+                String,
+                Integer
+            > headerEntry : headersMap.entrySet()) {
                 String headerName = headerEntry.getKey();
                 int cellNum = headerEntry.getValue() + addCellsFromTables;
 
                 JsonNode valueNode = findValueNodeByName(itemsNode, headerName);
 
                 // Если это таблица, заполняем её
-                if (valueNode != null && valueNode.has("value") && valueNode.get("value").isArray() && isTableField(valueNode)) {
+                if (
+                    valueNode != null &&
+                    valueNode.has("value") &&
+                    valueNode.get("value").isArray() &&
+                    isTableField(valueNode)
+                ) {
                     JsonNode tableValueNode = valueNode.get("value");
                     if (tableValueNode.size() == 0) {
                         continue;
                     }
                     // Передаем строку и индекс для первой строки таблицы
-                    int lastRow = fillTable(sheet, row, cellNum, tableValueNode, itemFirstRowNum, timezone);
+                    int lastRow = fillTable(
+                        sheet,
+                        row,
+                        cellNum,
+                        tableValueNode,
+                        itemFirstRowNum,
+                        timezone
+                    );
                     if (lastRow > tableLastRow) {
                         tableLastRow = lastRow;
                     }
                     JsonNode firstRowItems = tableValueNode.get(0).get("items");
                     if (firstRowItems != null && firstRowItems.isArray()) {
-                        addCellsFromTables = addCellsFromTables + (firstRowItems.size() - 1);
+                        addCellsFromTables =
+                            addCellsFromTables + (firstRowItems.size() - 1);
                     }
                 } else {
                     Cell cell = row.createCell(cellNum);
@@ -171,9 +210,14 @@ public class JsonExcelConverter {
         }
     }
 
-
-
-    private int fillTable(Sheet sheet, Row row, int startColumn, JsonNode tableValueNode, int startRow, String timezone) {
+    private int fillTable(
+        Sheet sheet,
+        Row row,
+        int startColumn,
+        JsonNode tableValueNode,
+        int startRow,
+        String timezone
+    ) {
         int rowNum = startRow; // Начинаем с текущего индекса строки
 
         // Проходим по каждой строке в таблице
@@ -206,7 +250,11 @@ public class JsonExcelConverter {
         return rowNum;
     }
 
-    private void writeValueToCell(JsonNode valueNode, Cell cell, String timezone) {
+    private void writeValueToCell(
+        JsonNode valueNode,
+        Cell cell,
+        String timezone
+    ) {
         if (valueNode == null) {
             return; // Если значение отсутствует, ничего не делаем
         }
@@ -215,9 +263,22 @@ public class JsonExcelConverter {
         if (valueNode.has("form_field_type")) {
             String fieldType = valueNode.get("form_field_type").asText();
 
+            if ("LinkField".equals(fieldType) || "Link".equals(fieldType)) {
+                String url = valueNode.has("value")
+                    ? valueNode.get("value").asText()
+                    : "";
+                if (!url.isEmpty()) {
+                    setLinkCell(cell, url);
+                }
+                return;
+            }
+
             // Обработка типа "NumberField" (число)
             if ("NumberField".equals(fieldType) || "Number".equals(fieldType)) {
-                String value = valueNode.get("value").asText().replace(",", "."); // Заменяем запятую на точку для чисел
+                String value = valueNode
+                    .get("value")
+                    .asText()
+                    .replace(",", "."); // Заменяем запятую на точку для чисел
                 try {
                     // Преобразуем строку в число и записываем
                     double numericValue = Double.parseDouble(value);
@@ -231,19 +292,28 @@ public class JsonExcelConverter {
             }
 
             // Обработка типов "DateField" и "DueDateField" (дата)
-            if ("DateField".equals(fieldType) || "DueDateField".equals(fieldType) || "Date".equals(fieldType) || "DueDate".equals(fieldType)) {
+            if (
+                "DateField".equals(fieldType) ||
+                "DueDateField".equals(fieldType) ||
+                "Date".equals(fieldType) ||
+                "DueDate".equals(fieldType)
+            ) {
                 try {
                     String dateValue = valueNode.get("value").asText();
 
                     // Преобразуем строку с датой в формат Date
-                    SimpleDateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    SimpleDateFormat utcFormat = new SimpleDateFormat(
+                        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+                    );
                     utcFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Указываем UTC как исходный часовой пояс
 
                     Date date = utcFormat.parse(dateValue); // Парсим строку в объект Date
 
                     // Преобразуем в Эстонское время
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-                    dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));  // Устанавливаем таймзону  // Применяем формат для даты
+                    SimpleDateFormat dateFormat = new SimpleDateFormat(
+                        "dd.MM.yyyy"
+                    );
+                    dateFormat.setTimeZone(TimeZone.getTimeZone(timezone)); // Устанавливаем таймзону  // Применяем формат для даты
 
                     cell.setCellValue(dateFormat.format(date));
                 } catch (ParseException e) {
@@ -272,14 +342,18 @@ public class JsonExcelConverter {
         } else if (valueNode.isObject()) {
             if (valueNode.has("values") && valueNode.get("values").isArray()) {
                 List<String> objectValues = new ArrayList<>();
-                valueNode.get("values").forEach(objValue -> objectValues.add(objValue.asText()));
+                valueNode
+                    .get("values")
+                    .forEach(objValue -> objectValues.add(objValue.asText()));
                 String joinedObjectValues = String.join(", ", objectValues);
                 cell.setCellValue(joinedObjectValues);
                 // Устанавливаем стиль для оборачивания текста, если есть новая строка
                 if (joinedObjectValues.contains("\n")) {
                     setWrapTextStyle(cell);
                 }
-            } else if (valueNode.has("value") && !valueNode.get("value").isArray()) {
+            } else if (
+                valueNode.has("value") && !valueNode.get("value").isArray()
+            ) {
                 // Если это поле объекта, записываем его "value"
                 String value = valueNode.get("value").asText();
                 cell.setCellValue(value);
@@ -287,9 +361,13 @@ public class JsonExcelConverter {
                 if (value.contains("\n")) {
                     setWrapTextStyle(cell);
                 }
-            } else if (valueNode.has("value") && valueNode.get("value").isArray()) {
+            } else if (
+                valueNode.has("value") && valueNode.get("value").isArray()
+            ) {
                 List<String> objectValues = new ArrayList<>();
-                valueNode.get("value").forEach(objValue -> objectValues.add(objValue.asText()));
+                valueNode
+                    .get("value")
+                    .forEach(objValue -> objectValues.add(objValue.asText()));
                 String joinedObjectValues = String.join(", ", objectValues);
                 cell.setCellValue(joinedObjectValues);
 
@@ -314,6 +392,22 @@ public class JsonExcelConverter {
         cell.setCellStyle(cellStyle);
     }
 
+    private void setLinkCell(Cell cell, String url) {
+        Workbook workbook = cell.getSheet().getWorkbook();
+        CreationHelper creationHelper = workbook.getCreationHelper();
+        Hyperlink hyperlink = creationHelper.createHyperlink(HyperlinkType.URL);
+        hyperlink.setAddress(url);
+        cell.setHyperlink(hyperlink);
+        cell.setCellValue(url);
+
+        CellStyle linkStyle = workbook.createCellStyle();
+        Font linkFont = workbook.createFont();
+        linkFont.setUnderline(Font.U_SINGLE);
+        linkFont.setColor(IndexedColors.BLUE.getIndex());
+        linkStyle.setFont(linkFont);
+        cell.setCellStyle(linkStyle);
+    }
+
     private String extractValue(JsonNode valueNode) {
         // Этот метод будет использоваться для извлечения значений вложенных объектов
         StringBuilder sb = new StringBuilder();
@@ -325,15 +419,23 @@ public class JsonExcelConverter {
                 for (JsonNode arrayElement : valueNode) {
                     if (arrayElement.isTextual()) {
                         arrayValues.add(arrayElement.asText());
-                    } else if (arrayElement.isObject() || arrayElement.isArray()) {
-                        arrayValues.add(extractValue(arrayElement));  // Рекурсивный вызов для вложенных объектов
+                    } else if (
+                        arrayElement.isObject() || arrayElement.isArray()
+                    ) {
+                        arrayValues.add(extractValue(arrayElement)); // Рекурсивный вызов для вложенных объектов
                     }
                 }
                 sb.append(String.join(", ", arrayValues));
             } else if (valueNode.isObject()) {
-                if (valueNode.has("values") && valueNode.get("values").isArray()) {
+                if (
+                    valueNode.has("values") && valueNode.get("values").isArray()
+                ) {
                     List<String> objectValues = new ArrayList<>();
-                    valueNode.get("values").forEach(objValue -> objectValues.add(objValue.asText()));
+                    valueNode
+                        .get("values")
+                        .forEach(objValue ->
+                            objectValues.add(objValue.asText())
+                        );
                     sb.append(String.join(", ", objectValues));
                 } else if (valueNode.has("value")) {
                     sb.append(valueNode.get("value").asText());
@@ -343,14 +445,16 @@ public class JsonExcelConverter {
             }
         }
 
-        return sb.toString();  // Возвращаем строку для записи в ячейку
+        return sb.toString(); // Возвращаем строку для записи в ячейку
     }
-
-
 
     private int getTableColumnCount(JsonNode tableValueNode) {
         // Предположим, что все ряды таблицы имеют одинаковое количество колонок
-        if (tableValueNode != null && tableValueNode.isArray() && tableValueNode.size() > 0) {
+        if (
+            tableValueNode != null &&
+            tableValueNode.isArray() &&
+            tableValueNode.size() > 0
+        ) {
             JsonNode firstRow = tableValueNode.get(0);
             if (firstRow.has("items") && firstRow.get("items").isArray()) {
                 return firstRow.get("items").size();
@@ -358,7 +462,6 @@ public class JsonExcelConverter {
         }
         return 0; // Если таблица пустая или нет данных
     }
-
 
     private JsonNode findValueNodeByName(JsonNode itemsNode, String name) {
         for (JsonNode item : itemsNode) {
