@@ -9,7 +9,7 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn package -DskipTests
 
-FROM openjdk:17-slim
+FROM eclipse-temurin:17-jre-jammy
 
 RUN apt-get update && \
     apt-get install -y wget curl unzip ca-certificates fonts-liberation libasound2 \
