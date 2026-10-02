@@ -4,9 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.*;
@@ -17,6 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class JsonExcelConverter {
+
+    private static final DateTimeFormatter DATE_FORMAT =
+        DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     public byte[] convert(MultipartFile file, String timezone)
         throws IOException {
@@ -322,27 +326,18 @@ public class JsonExcelConverter {
                 "Date".equals(fieldType) ||
                 "DueDate".equals(fieldType)
             ) {
+                String dateValue = valueNode.path("value").asText("");
                 try {
-                    String dateValue = valueNode.get("value").asText();
-
-                    // Преобразуем строку с датой в формат Date
-                    SimpleDateFormat utcFormat = new SimpleDateFormat(
-                        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-                    );
-                    utcFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Указываем UTC как исходный часовой пояс
-
-                    Date date = utcFormat.parse(dateValue); // Парсим строку в объект Date
-
-                    // Преобразуем в Эстонское время
-                    SimpleDateFormat dateFormat = new SimpleDateFormat(
-                        "dd.MM.yyyy"
-                    );
-                    dateFormat.setTimeZone(TimeZone.getTimeZone(timezone)); // Устанавливаем таймзону  // Применяем формат для даты
-
-                    cell.setCellValue(dateFormat.format(date));
-                } catch (ParseException e) {
-                    // Если не удалось распарсить как дату, записываем как строку
-                    cell.setCellValue(valueNode.asText());
+                    // Calendar dates have no timezone; only timestamps need conversion.
+                    LocalDate date = dateValue.length() == 10
+                        ? LocalDate.parse(dateValue)
+                        : OffsetDateTime.parse(dateValue)
+                            .atZoneSameInstant(TimeZone.getTimeZone(timezone).toZoneId())
+                            .toLocalDate();
+                    cell.setCellValue(DATE_FORMAT.format(date));
+                } catch (DateTimeParseException e) {
+                    // Preserve the original value when its format is unsupported.
+                    cell.setCellValue(dateValue);
                 }
                 return;
             }
